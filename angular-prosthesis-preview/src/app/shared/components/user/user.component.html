@@ -1,0 +1,49 @@
+
+<style>
+
+    .field-width{
+        width: 100%;
+    }
+
+    .form-width{
+        min-width: 150px;
+        max-width: 500px;
+        width: 100%;
+    }
+
+</style>
+
+<form [formGroup]="userGroup" (ngSubmit)="onSubmit()" class="form-width">
+    <mat-form-field class="field-width">
+        <mat-label for="login">Enter login</mat-label>
+        <input matInput type="text" id="login" formControlName="login" />
+
+    </mat-form-field>
+
+    <mat-form-field class="field-width">
+        <mat-label>Enter password</mat-label>
+        <input matInput type="password" id="pass" formControlName="password" />
+    </mat-form-field>
+
+    <mat-form-field class="field-width">
+        <mat-label for="email">Enter email</mat-label>
+        <input matInput type="email" id="email" formControlName="email" />
+    </mat-form-field>
+
+    <mat-form-field class="field-width">
+        <mat-label for="name">Enter name</mat-label>
+        <input matInput type="text" id="name" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field class="field-width">
+        <mat-label for="age">Enter age</mat-label>
+        <input matInput type="number" id="age" formControlName="age" />
+    </mat-form-field>
+
+    <mat-form-field class="field-width">
+        <mat-label for="phone">Enter phone number</mat-label>
+        <input matInput type="text" id="phone" formControlName="phoneNumber" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">SUBMIT</button>
+</form>
