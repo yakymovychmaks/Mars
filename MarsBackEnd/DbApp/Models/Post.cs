@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DbApp.Models
 {
-    internal class Post
+    public class Post
     {
         public int Id { get; set; }
         public string Title { get; set; }
