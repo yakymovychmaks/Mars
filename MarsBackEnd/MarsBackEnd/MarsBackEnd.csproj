@@ -29,8 +29,8 @@
   <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Utilities\" />
     <Folder Include="Services\" />
+    <Folder Include="Utilities\" />
   </ItemGroup>
 
 </Project>

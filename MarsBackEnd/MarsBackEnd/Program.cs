@@ -35,6 +35,7 @@ namespace MarsBackEnd
 
             app.UseAuthorization();
 
+            //app.MapControllerRoute(name: "default", pattern: "{controller=");
 
             app.MapControllers();
 
