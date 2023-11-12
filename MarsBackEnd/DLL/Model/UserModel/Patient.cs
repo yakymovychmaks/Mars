@@ -12,7 +12,7 @@ namespace DLL.Models.UserModel
         public string Phone { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ProfilePictire { get; set; }
-        public List<Apointment> apointments { get; set; }
+        public List<Apointment> Apointments { get; set; }
         public string MedicineHistory { get; set; }
 
     }

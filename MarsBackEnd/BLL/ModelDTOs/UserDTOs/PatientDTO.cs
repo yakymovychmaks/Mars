@@ -16,7 +16,7 @@ namespace BLL.ModelDTOs.UserDTOs
         public string Phone { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ProfilePictire { get; set; }
-        public List<ApointmentDTO> apointments { get; set; }
+        public List<ApointmentDTO> Apointments { get; set; }
         public string MedicineHistory { get; set; }
     }
 }

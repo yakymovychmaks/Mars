@@ -23,7 +23,7 @@ namespace DLL.Repository
 
         public void Delete(int id)
         {
-            var postToDelete = _DbContext.Posts.Find(x);
+            var postToDelete = _DbContext.Posts.Find(id);
             if (postToDelete != null)
             {
                 _DbContext.Posts.Remove(postToDelete);

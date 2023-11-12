@@ -24,7 +24,7 @@ namespace DLL.Repository
 
         public void Delete(int id)
         {
-            var DoctorToDelete = _DbContext.Doctors.Find(x);
+            var DoctorToDelete = _DbContext.Doctors.Find(id);
             if (DoctorToDelete != null)
             {
                 _DbContext.Doctors.Remove(DoctorToDelete);
