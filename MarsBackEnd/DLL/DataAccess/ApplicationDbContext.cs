@@ -1,8 +1,8 @@
-﻿using MarsBackEnd.Models;
-using MarsBackEnd.Models.UserModel;
+﻿using DLL.Models.AdminsModel;
+using DLL.Models.UserModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace MarsBackEnd.DataAccess
+namespace DLL.DataAccess
 {
     public class ApplicationDbContext : DbContext
     {
@@ -12,7 +12,7 @@ namespace MarsBackEnd.DataAccess
         }
 
         public DbSet<Admin> Admin { get; set; }
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<Posts> Posts { get; set; }
         public DbSet<Apointment> Apointsments { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Office> Office { get; set; }

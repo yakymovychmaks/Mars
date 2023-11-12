@@ -1,6 +1,6 @@
 ﻿using System.Drawing.Printing;
 
-namespace MarsBackEnd.Models.UserModel
+namespace DLL.Models.UserModel
 {
     public class Patient
     {

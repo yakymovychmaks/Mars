@@ -1,8 +1,7 @@
-using MarsBackEnd.DataAccess;
+using DLL.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 
-namespace MarsBackEnd
+namespace DLL
 {
     public class Program
     {
@@ -26,10 +25,6 @@ namespace MarsBackEnd
             var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustry;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
                 .Options;
-            using(var dbContext = new ApplicationDbContext(dbContextOptions))
-            {
-                
-            }
 
             app.UseHttpsRedirection();
 

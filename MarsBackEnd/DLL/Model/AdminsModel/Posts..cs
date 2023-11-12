@@ -1,12 +1,13 @@
-﻿namespace MarsBackEnd.Models
+﻿namespace DLL.Models.AdminsModel
 {
-    public class Post
+    public class Posts
     {
-        public int Id { get; set; }
+        public int Id { get; }
         public string Title { get; set; }
         public string Content { get; set; }
         public string Photo {  get; set; }
         public DateTime CreateAt { get; set; }
         public Admin Author { get; set; }
     }
+    
 }
