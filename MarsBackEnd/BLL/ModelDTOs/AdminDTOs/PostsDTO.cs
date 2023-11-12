@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.ModelDTOs.AdminDTOs
 {
-    internal class PostsDTO
+    public class PostsDTO
     {
         public int Id { get; }
         public string Title { get; set; }
