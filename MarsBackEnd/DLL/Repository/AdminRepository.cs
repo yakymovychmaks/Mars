@@ -19,7 +19,7 @@ namespace DLL.Repository
         }
         public void Add(Admin entity)
         {
-            
+            _DbContext.Admin.Add(entity);   
         }
 
         public void Delete(int id)
