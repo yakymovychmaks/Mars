@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DLL.Repository
 {
-    internal class DoctorRepository : IRepository<Doctor>
+    public class DoctorRepository : IRepository<Doctor>
     {
         private readonly ApplicationDbContext _DbContext;
         public DoctorRepository(ApplicationDbContext dbContext)

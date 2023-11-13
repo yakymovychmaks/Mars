@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface
 {
-    internal interface IService<T> where T : class
+    public interface IService<T> where T : class
     {
         IEnumerable<T> GetAll();
         T GetById(int id);
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(int id);
+        string Add(T entity);
+        string Update(T entity);
+        string Delete(int id);
     }
 }
