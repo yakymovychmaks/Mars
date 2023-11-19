@@ -7,7 +7,7 @@ using MarsBackEnd.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace DLL
+namespace MarsBackEnd
 {
     public class Program
     {
@@ -26,7 +26,7 @@ namespace DLL
 
             builder.Services.AddControllers();
             
-
+            
 
             var app = builder.Build();
 
@@ -35,8 +35,12 @@ namespace DLL
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
             var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustry;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
+                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
                 .Options;
+            using (var db = new ApplicationDbContext(dbContextOptions))
+            {
+                db.SaveChanges();
+            }
 
             app.UseHttpsRedirection();
 

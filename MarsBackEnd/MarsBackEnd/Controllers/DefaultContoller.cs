@@ -3,6 +3,7 @@ using MarsBackEnd.Models.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MarsBackEnd.Controllers
 {
@@ -22,10 +23,22 @@ namespace MarsBackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] string value)
+        public IActionResult Post([FromBody] AdminAPIModel adminAPIModel)
         {
-            // Логіка для обробки POST-запиту
-            return Ok($"Received value: {value}");
+            try
+            {
+                if(adminAPIModel == null)
+                {
+                    return BadRequest("Invalid user data");
+                }
+                var newAdmin = adminAPIService.AddAdmin(adminAPIModel);
+                
+                return Ok( $"{adminAPIModel}");
+            }catch(Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+            
         }
 
         [HttpPut("{id}")]

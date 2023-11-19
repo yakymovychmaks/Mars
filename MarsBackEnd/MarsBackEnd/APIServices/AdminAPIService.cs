@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BLL.ModelDTOs.AdminDTOs;
 using BLL.Services;
 using MarsBackEnd.Models.Admin;
 using Newtonsoft.Json;
@@ -27,6 +28,20 @@ namespace MarsBackEnd.APIServices
             {
                 return "Sorry " + ex.Message;
             }
+        }
+        public AdminAPIModel AddAdmin(AdminAPIModel model)
+        {
+
+            var adminAPIModel = new AdminAPIModel
+            {
+                Id = model.Id,
+                UserName = model.UserName.ToString(),
+                Email = model.Email.ToString(),
+                Password = model.Password.ToString(),
+                PostsOnSite = new List<PostsAPIModel>()
+            };
+            _adminService.Add(_mapper.Map<AdminDTO>(adminAPIModel));
+            return adminAPIModel;
         }
     }
 }

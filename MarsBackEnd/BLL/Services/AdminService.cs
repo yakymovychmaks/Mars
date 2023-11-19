@@ -30,7 +30,7 @@ namespace BLL.Services
         }
         public string Add(AdminDTO entity)
         {
-            if (entity == null)
+            if (entity != null)
             {
                 var adminModel = _mapper.Map<Admin>(entity);
                 _adminRepository.Add(adminModel);
