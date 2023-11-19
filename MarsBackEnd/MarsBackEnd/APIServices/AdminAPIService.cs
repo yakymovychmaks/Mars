@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BLL.Services;
 using MarsBackEnd.Models.Admin;
+using Newtonsoft.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -9,23 +10,22 @@ namespace MarsBackEnd.APIServices
     public class AdminAPIService
     {
         private AdminService _adminService;
-        //private IMapper _mapper;
-        public AdminAPIService(AdminService adminService)
+        private IMapper _mapper;
+        public AdminAPIService(AdminService adminService, IMapper mapper)
         {
             _adminService = adminService;
-            //_mapper = mapper;
+            _mapper = mapper;
         }
         public string GetAllAdminAsJson()
         {
-            var data = _adminService.GetAll();
-            if (data == null)
+            try
             {
-                return "Sorry nothing to found";
-            }
-            else
+                var result = _adminService.GetAll();
+                var serializedResult = JsonConvert.SerializeObject(result);
+                return serializedResult;
+            }catch (Exception ex)
             {
-                var jsonResult = _adminService.GetAll();
-                return jsonResult.ToString();
+                return "Sorry " + ex.Message;
             }
         }
     }

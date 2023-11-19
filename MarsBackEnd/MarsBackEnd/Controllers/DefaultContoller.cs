@@ -2,6 +2,7 @@
 using MarsBackEnd.Models.Admin;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MarsBackEnd.Controllers
 {
@@ -17,12 +18,7 @@ namespace MarsBackEnd.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var result = adminAPIService.GetAllAdminAsJson;
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            else return Ok("It isn't worvking");
+            return Ok(adminAPIService.GetAllAdminAsJson());
         }
 
         [HttpPost]

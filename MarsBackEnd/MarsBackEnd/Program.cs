@@ -1,9 +1,11 @@
 using BLL.Mapping;
 using BLL.Services;
 using DLL.DataAccess;
+using FluentAssertions.Common;
 using MarsBackEnd.APIServices;
 using MarsBackEnd.Mapping;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace DLL
 {
@@ -16,8 +18,8 @@ namespace DLL
             // Add services to the container.
 
 
-            builder.Services.AddSingleton<MappingProfile>();
-
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddAutoMapper(typeof(MappingConfigs));
             builder.Services.AddTransient<AdminService>();
             builder.Services.AddTransient<AdminAPIService>();
 
