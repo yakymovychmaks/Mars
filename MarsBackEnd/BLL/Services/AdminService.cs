@@ -5,11 +5,6 @@ using BLL.ModelDTOs.UserDTOs;
 using DLL.Models.AdminsModel;
 using DLL.Models.UserModel;
 using DLL.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {

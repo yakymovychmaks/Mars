@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MarsBackEnd.APIServices;
+using MarsBackEnd.Models.Admin;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarsBackEnd.Controllers
@@ -7,11 +9,20 @@ namespace MarsBackEnd.Controllers
     [ApiController]
     public class DefaultContoller : ControllerBase
     {
+        private AdminAPIService adminAPIService;
+        public DefaultContoller(AdminAPIService adminAPIService)
+        {
+            this.adminAPIService = adminAPIService;
+        }
         [HttpGet]
         public IActionResult Get()
         {
-            // Логіка для отримання даних
-            return Ok("Hello from API!");
+            var result = adminAPIService.GetAllAdminAsJson;
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else return Ok("It isn't worvking");
         }
 
         [HttpPost]

@@ -1,5 +1,8 @@
 using BLL.Mapping;
+using BLL.Services;
 using DLL.DataAccess;
+using MarsBackEnd.APIServices;
+using MarsBackEnd.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace DLL
@@ -11,11 +14,17 @@ namespace DLL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            MappingProfile mappingProfile = new MappingProfile();
-            
+
+
+            builder.Services.AddSingleton<MappingProfile>();
+
+            builder.Services.AddTransient<AdminService>();
+            builder.Services.AddTransient<AdminAPIService>();
+
 
             builder.Services.AddControllers();
-            builder.Services.AddSingleton<MappingProfile>();
+            
+
 
             var app = builder.Build();
 
