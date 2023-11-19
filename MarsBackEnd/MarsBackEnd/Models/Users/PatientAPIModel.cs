@@ -1,0 +1,18 @@
+﻿using DLL.Models.UserModel;
+
+namespace MarsBackEnd.Models.Users
+{
+    public class PatientAPIModel
+    {
+        public int Id { get; set; }
+        public string UserName { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Phone { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string ProfilePictire { get; set; }
+        public List<ApointmentAPIModel> ApointmentsAPI { get; set; }
+        public string MedicineHistory { get; set; }
+    }
+}
