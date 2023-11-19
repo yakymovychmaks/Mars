@@ -1,3 +1,4 @@
+using BLL.Mapping;
 using DLL.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,11 +11,11 @@ namespace DLL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            MappingProfile mappingProfile = new MappingProfile();
             
 
             builder.Services.AddControllers();
-
+            builder.Services.AddSingleton<MappingProfile>();
 
             var app = builder.Build();
 
