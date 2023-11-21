@@ -32,14 +32,15 @@ namespace MarsBackEnd.APIServices
         public AdminAPIModel AddAdmin(AdminAPIModel model)
         {
 
-            var adminAPIModel = new AdminAPIModel
-            {
-                Id = model.Id,
-                UserName = model.UserName.ToString(),
-                Email = model.Email.ToString(),
-                Password = model.Password.ToString(),
-                PostsOnSite = new List<PostsAPIModel>()
-            };
+            //var adminapimodel = new adminapimodel
+            // {
+            //     id = model.id,
+            //     username = model.username.tostring(),
+            //     email = model.email.tostring(),
+            //     password = model.password.tostring(),
+            //     //postsonsite = new list<postsapimodel>()
+            // };
+            var adminAPIModel = model;
             _adminService.Add(_mapper.Map<AdminDTO>(adminAPIModel));
             return adminAPIModel;
         }

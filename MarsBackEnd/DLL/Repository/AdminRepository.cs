@@ -12,15 +12,20 @@ namespace DLL.Repository
 {
     public class AdminRepository : IRepository<Admin>
     {
-        private readonly ApplicationDbContext _DbContext;
+        public ApplicationDbContext _DbContext;
         public AdminRepository(ApplicationDbContext context)
         {
+
             _DbContext = context;
+            
         }
         public void Add(Admin entity)
         {
-            _DbContext.Admin.Add(entity);   
-            _DbContext.SaveChanges();
+            try
+            {
+                _DbContext.Admin.Add(entity);
+                _DbContext.SaveChanges();
+            }catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
 
         public void Delete(int id)
