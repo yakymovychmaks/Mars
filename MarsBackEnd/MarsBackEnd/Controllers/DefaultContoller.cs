@@ -21,6 +21,20 @@ namespace MarsBackEnd.Controllers
         {
             return Ok(adminAPIService.GetAllAdminAsJson());
         }
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                var adminById = adminAPIService.GetAdminByIdJson(id);
+                if (adminById == null)
+                {
+                    return BadRequest("Invalid user data");
+                }
+                
+                return Ok(adminById);
+            }catch (Exception ex) { return BadRequest(ex.Message); }
+        }
 
         [HttpPost]
         public IActionResult Post([FromBody] AdminAPIModel adminAPIModel)
@@ -40,12 +54,23 @@ namespace MarsBackEnd.Controllers
             }
             
         }
+        
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] AdminAPIModel value)
         {
-            // Логіка для обробки PUT-запиту
-            return Ok($"Updated value with ID {id} to: {value}");
+            try
+            {
+                if (value == null)
+                    return BadRequest("Something wrong with value for update");
+                
+                return Ok("Success" + adminAPIService.UpdataAdmin(id, value));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message );
+            }
+            
         }
 
         [HttpDelete("{id}")]

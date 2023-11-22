@@ -10,17 +10,7 @@ namespace MarsBackEnd.Mapping
     {
         public MappingConfigs()
         {
-            CreateMap<AdminAPIModel, AdminDTO>()
-    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
-    .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-    .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password));
-
-            CreateMap<AdminDTO, AdminAPIModel>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password));
+            CreateMap<AdminAPIModel, AdminDTO>().ReverseMap();   
             CreateMap<PostsAPIModel, PostsDTO>().ReverseMap();
             CreateMap<DoctorAPIModel,DoctorDTO>().ReverseMap();
             CreateMap<PatientAPIModel, PatientDTO>().ReverseMap();

@@ -50,7 +50,9 @@ namespace DLL.Repository
 
         public void Update(Admin entity)
         {
-            _DbContext.Admin.Update(entity);
+
+            _DbContext.Update(entity);
+            _DbContext.SaveChanges();
         }
     }
 }
