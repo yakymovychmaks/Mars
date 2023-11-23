@@ -13,6 +13,6 @@ namespace BLL.ModelDTOs.AdminDTOs
         public string Content { get; set; }
         public string Photo { get; set; }
         public DateTime CreateAt { get; set; }
-        public AdminDTO Author { get; set; }
+//        public AdminDTO Author { get; set; }
     }
 }

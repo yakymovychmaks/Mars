@@ -14,7 +14,7 @@ namespace BLL.Services
     {
         private PostRepository _postRepository;
         private IMapper _mapper;
-        public void SetRepositorys(PostRepository postRepository, IMapper mapper)
+        public PostService(PostRepository postRepository, IMapper mapper)
         {
             _postRepository = postRepository;
             _mapper = mapper;

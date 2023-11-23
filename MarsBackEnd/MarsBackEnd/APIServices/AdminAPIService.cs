@@ -12,9 +12,12 @@ namespace MarsBackEnd.APIServices
     public class AdminAPIService
     {
         private AdminService _adminService;
+        public PostService _postService;
+
         private IMapper _mapper;
-        public AdminAPIService(AdminService adminService, IMapper mapper)
+        public AdminAPIService(PostService postService,AdminService adminService, IMapper mapper)
         {
+            _postService = postService;
             _adminService = adminService;
             _mapper = mapper;
         }
@@ -67,6 +70,30 @@ namespace MarsBackEnd.APIServices
             catch (Exception ex)
             {
                 return "AdminAPIService" + ex.Message;
+            }
+        }
+        public string GetAllPosts()
+        {
+            try
+            {
+                if(_postService.GetAll() == null)
+                {
+                    return "Nothing found";
+                }
+                return JsonConvert.SerializeObject(_postService.GetAll());
+            }catch (Exception ex)
+            {
+                return "Sorry: " + ex.Message;
+            }
+        }
+        public string AddPost(PostsAPIModel addPost)
+        {
+            try
+            {
+                return _adminService.CreatePost(_mapper.Map<PostsDTO>(addPost));
+            }catch (Exception ex)
+            {
+                return "Sorry: " + ex.Message;
             }
         }
     }

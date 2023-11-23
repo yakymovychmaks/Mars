@@ -11,21 +11,21 @@ namespace BLL.Services
     public class AdminService : IService<AdminDTO>
     {
         private AdminRepository _adminRepository;
-        //private PostRepository _postRepository;
+        private PostRepository _postRepository;
         //private DoctorRepository _doctorRepository;
         //private PatientRepository _patientRepository;
         //private ApointmentRepository _apointmentRepository;
         //private OfficeRepository _officeRepository;
 
         private IMapper _mapper;
-        public AdminService(/*ApointmentRepository apointmentRepository,*/ AdminRepository adminRepository,/* DoctorRepository doctorRepository, PatientRepository patientRepository, OfficeRepository officeRepository, PostRepository postRepository,*/ IMapper mapper)
+        public AdminService(/*ApointmentRepository apointmentRepository,*/ AdminRepository adminRepository,/* DoctorRepository doctorRepository, PatientRepository patientRepository, OfficeRepository officeRepository,*/ PostRepository postRepository, IMapper mapper)
         {
             _adminRepository = adminRepository;
             //_apointmentRepository = apointmentRepository;
             //_doctorRepository = doctorRepository;
             //_officeRepository = officeRepository;
             //_patientRepository = patientRepository;
-            //_postRepository = postRepository;
+            _postRepository = postRepository;
             _mapper = mapper;
         }
         public string Add(AdminDTO entity)
@@ -77,37 +77,37 @@ namespace BLL.Services
             else return "Incorect data";
 
         }
-        //#region Posts
-        //public string CreatePost(PostsDTO posts)
-        //{
-        //    if (posts != null)
-        //    {
-        //        _postRepository.Add(_mapper.Map<Posts>(posts));
-        //        return "Post created";
-        //    }
-        //    else return "Value can't be null";
-        //}
-        //public string DeletePost(int id)
-        //{
-        //    var postToDelete = _postRepository.GetById(id);
-        //    if (postToDelete != null)
-        //    {
-        //        _postRepository.Delete(id);
-        //        return "Post was delete";
-        //    }
-        //    else return "Inckorekt id";
-        //}
-        //public string UpdatePost(PostsDTO post)
-        //{
-        //    var postToUpdale = _postRepository.GetById(post.Id);
-        //    if (postToUpdale != null)
-        //    {
-        //        _postRepository.Update(_mapper.Map<Posts>(post));
-        //        return "Post was update";
-        //    }
-        //    else return "I can't find this post";
-        //}
-        //#endregion
+        #region Posts
+        public string CreatePost(PostsDTO posts)
+        {
+            if (posts != null)
+            {
+                _postRepository.Add(_mapper.Map<Posts>(posts));
+                return "Post created";
+            }
+            else return "Value can't be null";
+        }
+        public string DeletePost(int id)
+        {
+            var postToDelete = _postRepository.GetById(id);
+            if (postToDelete != null)
+            {
+                _postRepository.Delete(id);
+                return "Post was delete";
+            }
+            else return "Inckorekt id";
+        }
+        public string UpdatePost(PostsDTO post)
+        {
+            var postToUpdale = _postRepository.GetById(post.Id);
+            if (postToUpdale != null)
+            {
+                _postRepository.Update(_mapper.Map<Posts>(post));
+                return "Post was update";
+            }
+            else return "I can't find this post";
+        }
+        #endregion
         //#region Doctor
         //public string DeleteDoctor(int id)
         //{

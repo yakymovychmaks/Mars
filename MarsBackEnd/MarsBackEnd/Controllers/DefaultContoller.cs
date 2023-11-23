@@ -21,6 +21,17 @@ namespace MarsBackEnd.Controllers
         {
             return Ok(adminAPIService.GetAllAdminAsJson());
         }
+        [HttpGet("post")]
+        public IActionResult GetAllPosts()
+        {
+            try
+            {
+                return Ok(adminAPIService.GetAllPosts());
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -53,6 +64,19 @@ namespace MarsBackEnd.Controllers
                 return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
             
+        }
+        [HttpPost("posts")]
+        public IActionResult NewPost([FromBody] PostsAPIModel postsAPIModel)
+        {
+            try
+            {
+                if (postsAPIModel == null)
+                    return BadRequest("Sorry can't be null");
+                return Ok(adminAPIService.AddPost(postsAPIModel));
+            }catch (Exception ex)
+            {
+                return BadRequest("sorry: "+ ex.Message);
+            }
         }
         
 

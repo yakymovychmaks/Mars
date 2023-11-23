@@ -19,6 +19,7 @@ namespace DLL.Repository
         public void Add(Posts entity)
         {
             _DbContext.Posts.Add(entity);
+            _DbContext.SaveChanges();
         }
 
         public void Delete(int id)

@@ -23,9 +23,15 @@ namespace MarsBackEnd
 
             builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(MappingConfigs));
 
+            #region Post DI
+            builder.Services.AddScoped<PostRepository>();
+            builder.Services.AddTransient<PostService>();
+            #endregion
+
             builder.Services.AddScoped<AdminRepository>();
             builder.Services.AddTransient<AdminAPIService>();
             builder.Services.AddTransient<AdminService>();
+
 
 
             builder.Services.AddControllers();
