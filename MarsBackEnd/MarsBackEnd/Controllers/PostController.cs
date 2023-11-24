@@ -24,5 +24,17 @@ namespace MarsBackEnd.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("{id}")]
+        public IActionResult GetPostById(int id)
+        {
+            try
+            {
+                return Ok(_postAPIService.GetPostByIdAsJson(id));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

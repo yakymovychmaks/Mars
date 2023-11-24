@@ -28,5 +28,11 @@ namespace MarsBackEnd.APIServices
                 return "Sorry: "+ex.Message;
             }
         }
+        public string GetPostByIdAsJson(int id)
+        {
+            if (_postService.GetById(id) == null)
+                return "Nothing to found";
+            return JsonConvert.SerializeObject(_postService.GetById(id));
+        }
     }
 }
