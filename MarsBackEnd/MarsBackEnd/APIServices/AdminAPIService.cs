@@ -72,20 +72,7 @@ namespace MarsBackEnd.APIServices
                 return "AdminAPIService" + ex.Message;
             }
         }
-        public string GetAllPosts()
-        {
-            try
-            {
-                if(_postService.GetAll() == null)
-                {
-                    return "Nothing found";
-                }
-                return JsonConvert.SerializeObject(_postService.GetAll());
-            }catch (Exception ex)
-            {
-                return "Sorry: " + ex.Message;
-            }
-        }
+
         public string AddPost(PostsAPIModel addPost)
         {
             try

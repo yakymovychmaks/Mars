@@ -26,12 +26,12 @@ namespace MarsBackEnd
             #region Post DI
             builder.Services.AddScoped<PostRepository>();
             builder.Services.AddTransient<PostService>();
+            builder.Services.AddTransient<PostAPIService>();
             #endregion
 
             builder.Services.AddScoped<AdminRepository>();
             builder.Services.AddTransient<AdminAPIService>();
             builder.Services.AddTransient<AdminService>();
-
 
 
             builder.Services.AddControllers();

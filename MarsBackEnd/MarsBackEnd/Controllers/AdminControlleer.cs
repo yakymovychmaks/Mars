@@ -7,12 +7,12 @@ using Newtonsoft.Json.Linq;
 
 namespace MarsBackEnd.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admincontrols")]
     [ApiController]
-    public class DefaultContoller : ControllerBase
+    public class AdminControlleer : ControllerBase
     {
         private AdminAPIService adminAPIService;
-        public DefaultContoller(AdminAPIService adminAPIService)
+        public AdminControlleer(AdminAPIService adminAPIService)
         {
             this.adminAPIService = adminAPIService;
         }
@@ -21,17 +21,7 @@ namespace MarsBackEnd.Controllers
         {
             return Ok(adminAPIService.GetAllAdminAsJson());
         }
-        [HttpGet("post")]
-        public IActionResult GetAllPosts()
-        {
-            try
-            {
-                return Ok(adminAPIService.GetAllPosts());
-            }catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
