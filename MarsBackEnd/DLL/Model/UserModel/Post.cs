@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace DLL.Model.UserModel
 {
-    public class Apointment
+    public class Post
     {
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string title { get; set; }
         public string Description { get; set; }
-        public DateTime time { get; set; }
-        // Інші властивості для призначення
+        // Інші властивості для поста
 
         [ForeignKey("UserId")]
         public int UserId { get; set; }
