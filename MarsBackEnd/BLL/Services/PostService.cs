@@ -27,12 +27,29 @@ namespace BLL.Services
                 }
                 var rez = _mapper.Map<Post>(entity);
                 _postRepository.Add(rez);
+                return "okey";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
             }
         }
 
         public string Delete(PostDTO entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (_postRepository.GetById(entity.Id) == null)
+                {
+                    return "cant be null";
+                }
+                return _postRepository.Delete(entity.Id);
+
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         public IEnumerable<PostDTO> GetAll()
@@ -54,7 +71,19 @@ namespace BLL.Services
 
         public string Update(PostDTO entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(entity == null)
+                {
+                    return "can't be null";
+                }
+                _postRepository.Update(_mapper.Map<Post>(entity));
+                return "okey";
+            }
+            catch(Exception ex)
+            {
+                return ex.Message;
+            }
         }
     }
 }
