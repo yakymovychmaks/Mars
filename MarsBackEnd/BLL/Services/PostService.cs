@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
 using BLL.Interface;
-using BLL.ModelDTOs.AdminDTOs;
+using BLL.ModelDTOs.UserDTOs;
+using DLL.Model.UserModel;
 using DLL.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BLL.Services
 {
-    public class PostService : IService<PostsDTO>
+    public class PostService : IService<PostDTO>
     {
         private PostRepository _postRepository;
         private IMapper _mapper;
@@ -19,21 +16,45 @@ namespace BLL.Services
             _postRepository = postRepository;
             _mapper = mapper;
         }
-        public IEnumerable<PostsDTO> GetAll()
+
+        public string Add(PostDTO entity)
         {
-            return _mapper.Map<IEnumerable<PostsDTO>>(_postRepository.GetAll());
+            try
+            {
+                if(entity == null)
+                {
+                    return "wrong data";
+                }
+                var rez = _mapper.Map<Post>(entity);
+                _postRepository.Add(rez);
+            }
         }
 
-        public PostsDTO? GetById(int id)
+        public string Delete(PostDTO entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<PostDTO> GetAll()
+        {
+            return _mapper.Map<IEnumerable<PostDTO>>(_postRepository.GetAll());
+        }
+
+        public PostDTO? GetById(int id)
         {
             if (id != 0)
             {
 
                 if (_postRepository.GetById(id) != null)
-                    return _mapper.Map<PostsDTO>(_postRepository.GetById(id));
+                    return _mapper.Map<PostDTO>(_postRepository.GetById(id));
                 else return null;
             }
             else return null;
+        }
+
+        public string Update(PostDTO entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

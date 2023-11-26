@@ -11,7 +11,7 @@ namespace MarsBackEnd.Mapping
         public MappingConfigs()
         {
             CreateMap<AdminAPIModel, AdminDTO>().ReverseMap();   
-            CreateMap<PostsAPIModel, PostsDTO>().ReverseMap();
+            CreateMap<PostsAPIModel, PostDTO>().ReverseMap();
             CreateMap<DoctorAPIModel,DoctorDTO>().ReverseMap();
             CreateMap<PatientAPIModel, PatientDTO>().ReverseMap();
             CreateMap<OfficeAPIModel,OfficeDTO>().ReverseMap();

@@ -1,6 +1,6 @@
 ﻿using DLL.DataAccess;
 using DLL.Interface;
-using DLL.Models.AdminsModel;
+using DLL.Model.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,42 +9,47 @@ using System.Threading.Tasks;
 
 namespace DLL.Repository
 {
-    public class PostRepository : IRepository<Posts>
+    public class PostRepository : IRepository<Post>
     {
         private readonly ApplicationDbContext _DbContext;
         public PostRepository(ApplicationDbContext context)
         {
             _DbContext = context;
         }
-        public void Add(Posts entity)
+        public string Add(Post entity)
         {
             _DbContext.Posts.Add(entity);
             _DbContext.SaveChanges();
+            return "okey";
         }
 
-        public void Delete(int id)
+        public string Delete(int id)
         {
             var postToDelete = _DbContext.Posts.Find(id);
             if (postToDelete != null)
             {
+
                 _DbContext.Posts.Remove(postToDelete);
                 _DbContext.SaveChanges();
+                return "okey";
             }
+            return "error delete";
         }
 
-        public IEnumerable<Posts> GetAll()
+        public IEnumerable<Post> GetAll()
         {
             return _DbContext.Posts.ToList();
         }
 
-        public Posts GetById(int id)
+        public Post GetById(int id)
         {
             return _DbContext.Posts.Find(id);
         }
 
-        public void Update(Posts entity)
+        public string Update(Post entity)
         {
             _DbContext.Posts.Update(entity);
+            return "error";
         }
     }
 }

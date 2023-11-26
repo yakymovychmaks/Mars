@@ -12,7 +12,7 @@ namespace BLL.Mapping
         public MappingProfile()
         {
             CreateMap<AdminDTO, Admin>().ReverseMap();
-            CreateMap<PostsDTO, Posts>().ReverseMap();
+            CreateMap<PostDTO, Posts>().ReverseMap();
             CreateMap<DoctorDTO, Doctor>().ReverseMap();
             CreateMap<PatientDTO, Patient>().ReverseMap();
             CreateMap<ApointmentDTO, Apointment>().ReverseMap();

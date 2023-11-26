@@ -77,7 +77,7 @@ namespace MarsBackEnd.APIServices
         {
             try
             {
-                return _adminService.CreatePost(_mapper.Map<PostsDTO>(addPost));
+                return _adminService.CreatePost(_mapper.Map<PostDTO>(addPost));
             }catch (Exception ex)
             {
                 return "Sorry: " + ex.Message;
