@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MarsBackEnd.Controllers
 {
-    [Route("api/postcontrol")]
+    [Route("api/post")]
     [ApiController]
     public class PostController : ControllerBase
     {

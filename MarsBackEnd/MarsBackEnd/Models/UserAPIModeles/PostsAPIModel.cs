@@ -1,4 +1,4 @@
-﻿namespace MarsBackEnd.Models.Admin
+﻿namespace MarsBackEnd.Models.UserAPIModeles
 {
     public class PostsAPIModel
     {

@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using BLL.ModelDTOs.AdminDTOs;
 using BLL.ModelDTOs.UserDTOs;
-using DLL.Models.AdminsModel;
-using DLL.Models.UserModel;
+using DLL.Model.UserModel;
 
 
 namespace BLL.Mapping
@@ -11,12 +9,9 @@ namespace BLL.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<AdminDTO, Admin>().ReverseMap();
-            CreateMap<PostDTO, Posts>().ReverseMap();
-            CreateMap<DoctorDTO, Doctor>().ReverseMap();
-            CreateMap<PatientDTO, Patient>().ReverseMap();
+            CreateMap<UserDTO, User>().ReverseMap();
+            CreateMap<PostDTO, Post>().ReverseMap();
             CreateMap<ApointmentDTO, Apointment>().ReverseMap();
-            CreateMap<OfficeDTO, Office>().ReverseMap();
         }
     }
 }

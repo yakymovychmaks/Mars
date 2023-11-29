@@ -1,8 +1,6 @@
-﻿using BLL.ModelDTOs.AdminDTOs;
-using MarsBackEnd.Models.Admin;
+﻿using BLL.ModelDTOs.UserDTOs;
 using AutoMapper;
-using MarsBackEnd.Models.Users;
-using BLL.ModelDTOs.UserDTOs;
+using MarsBackEnd.Models.UserAPIModeles;
 
 namespace MarsBackEnd.Mapping
 {
@@ -10,11 +8,8 @@ namespace MarsBackEnd.Mapping
     {
         public MappingConfigs()
         {
-            CreateMap<AdminAPIModel, AdminDTO>().ReverseMap();   
+            CreateMap<UserAPIModel,UserDTO>().ReverseMap();
             CreateMap<PostsAPIModel, PostDTO>().ReverseMap();
-            CreateMap<DoctorAPIModel,DoctorDTO>().ReverseMap();
-            CreateMap<PatientAPIModel, PatientDTO>().ReverseMap();
-            CreateMap<OfficeAPIModel,OfficeDTO>().ReverseMap();
             CreateMap<ApointmentAPIModel, ApointmentDTO>().ReverseMap();
         }
     }

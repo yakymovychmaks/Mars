@@ -16,6 +16,6 @@ namespace DLL.Model.UserModel
 
         [ForeignKey("UserId")]
         public int UserId { get; set; }
-        public UserDTO User { get; set; }
+        public User User { get; set; }
     }
 }

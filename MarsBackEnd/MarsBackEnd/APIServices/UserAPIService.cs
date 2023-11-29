@@ -1,31 +1,29 @@
 ﻿using AutoMapper;
-using BLL.ModelDTOs.AdminDTOs;
+using BLL.ModelDTOs.UserDTOs;
 using BLL.Services;
-using MarsBackEnd.Models.Admin;
-using Microsoft.AspNetCore.Http.HttpResults;
+using MarsBackEnd.Models.UserAPIModeles;
 using Newtonsoft.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+
 
 namespace MarsBackEnd.APIServices
 {
-    public class AdminAPIService
+    public class UserAPIService
     {
-        private AdminService _adminService;
+        private UserService _userService;
         public PostService _postService;
 
         private IMapper _mapper;
-        public AdminAPIService(PostService postService,AdminService adminService, IMapper mapper)
+        public UserAPIService(PostService postService,UserService userService, IMapper mapper)
         {
             _postService = postService;
-            _adminService = adminService;
+            _userService = userService;
             _mapper = mapper;
         }
         public string GetAllAdminAsJson()
         {
             try
             {
-                var result = _adminService.GetAll();
+                var result = _userService.GetAll();
                 var serializedResult = JsonConvert.SerializeObject(result);
                 return serializedResult;
             }catch (Exception ex)
@@ -33,13 +31,16 @@ namespace MarsBackEnd.APIServices
                 return "Sorry " + ex.Message;
             }
         }
-        public string AddAdmin(AdminAPIModel model)
+
+
+
+        public string AddUser(UserAPIModel model)
         {
 
             try
             {
                 var adminAPIModel = model;
-                _adminService.Add(_mapper.Map<AdminDTO>(adminAPIModel));
+                _userService.Add(_mapper.Map<UserDTO>(adminAPIModel));
                 return JsonConvert.SerializeObject(adminAPIModel);
             }
             catch (Exception ex) 
@@ -49,20 +50,20 @@ namespace MarsBackEnd.APIServices
         {
             try
             {
-                var result = _adminService.GetById(id);
+                var result = _userService.GetById(id);
                 var serializedResult = JsonConvert.SerializeObject(result);
                 return serializedResult;
             }catch (Exception ex) { return "AdminApiService error: "+ex.Message; }
         }
-        public string UpdataAdmin(int id ,AdminAPIModel adminUpdate)
+        public string UpdataAdmin(int id ,UserAPIModel adminUpdate)
         {
             try
             {
-                if(_adminService.GetById(id) != null)
+                if(_userService.GetById(id) != null)
                 {
-                    
-                    _adminService.Delete(id); 
-                    _adminService.Add(_mapper.Map<AdminDTO>(adminUpdate));
+                    _userService.Delete(_mapper.Map<UserDTO>(adminUpdate));   
+                    //_userService.Delete(id); 
+                    //_userService.Add(_mapper.Map<UserDTO>(adminUpdate));
                     return "Success : " + JsonConvert.SerializeObject(adminUpdate);
                 }
                 return "Admin not found";
@@ -77,7 +78,7 @@ namespace MarsBackEnd.APIServices
         {
             try
             {
-                return _adminService.CreatePost(_mapper.Map<PostDTO>(addPost));
+                return _postService.CreatePost(_mapper.Map<PostDTO>(addPost));
             }catch (Exception ex)
             {
                 return "Sorry: " + ex.Message;

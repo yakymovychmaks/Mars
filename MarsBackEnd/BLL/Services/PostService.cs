@@ -85,5 +85,15 @@ namespace BLL.Services
                 return ex.Message;
             }
         }
+        public string CreatePost(PostDTO postDTO)
+        {
+            try
+            {
+                return "ok";
+            }catch(Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }
