@@ -39,8 +39,8 @@ namespace MarsBackEnd.APIServices
         {
             if (postsAPIModel == null)
                 return "can't be null";
-            _postService.CreatePost(_mapper.Map<PostDTO>(postsAPIModel));
-            return "Post was added";
+            
+            return _postService.Add(_mapper.Map<PostDTO>(postsAPIModel)); ;
         }
         public string DeletePsot(int id) 
         {

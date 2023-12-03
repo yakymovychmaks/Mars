@@ -44,13 +44,13 @@ namespace MarsBackEnd
 
             //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-            //var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-            //    .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
-            //    .Options;
-            //using (var db = new ApplicationDbContext(dbContextOptions))
-            //{
-            //    db.SaveChanges();
-            //}
+            var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
+                .Options;
+            using (var db = new ApplicationDbContext(dbContextOptions))
+            {
+                db.SaveChanges();
+            }
 
             var app = builder.Build();
             app.UseHttpsRedirection();

@@ -16,7 +16,6 @@ namespace DLL.Model.UserModel
         public string UserRole { get; set; }
         public string ProfilePicture { get; set; }
 
-        [InverseProperty("User")]
         public List<Post>? Posts { get; set; }
 
         [InverseProperty("User")]

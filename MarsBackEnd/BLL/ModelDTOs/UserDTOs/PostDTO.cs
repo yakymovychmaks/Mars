@@ -15,6 +15,5 @@ namespace BLL.ModelDTOs.UserDTOs
         public string Description { get; set; }
         // Інші властивості для поста
         public int UserId { get; set; }
-        public UserDTO UserDTO { get; set; }
     }
 }
