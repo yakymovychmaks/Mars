@@ -49,6 +49,7 @@ namespace DLL.Repository
         public string Update(Post entity)
         {
             _DbContext.Posts.Update(entity);
+            _DbContext.SaveChanges();
             return "error";
         }
     }

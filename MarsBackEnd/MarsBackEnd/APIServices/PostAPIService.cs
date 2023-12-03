@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using BLL.ModelDTOs.UserDTOs;
 using BLL.Services;
+using MarsBackEnd.Models.UserAPIModeles;
 using Newtonsoft.Json;
 
 
@@ -32,6 +34,20 @@ namespace MarsBackEnd.APIServices
             if (_postService.GetById(id) == null)
                 return "Nothing to found";
             return JsonConvert.SerializeObject(_postService.GetById(id));
+        }
+        public string AddPsot(PostsAPIModel postsAPIModel)
+        {
+            if (postsAPIModel == null)
+                return "can't be null";
+            _postService.CreatePost(_mapper.Map<PostDTO>(postsAPIModel));
+            return "Post was added";
+        }
+        public string DeletePsot(int id) 
+        {
+            var postsAPIModel = _postService.GetById(id);
+            if (postsAPIModel == null) return " can't be null";
+            _postService.Delete(_mapper.Map<PostDTO>(postsAPIModel));
+            return "post was delete";
         }
     }
 }
