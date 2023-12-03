@@ -17,6 +17,7 @@ namespace DLL.Repository
             try
             {
                 _dbContext.Users.Add(entity);
+                _dbContext.SaveChanges();
                 return "User was added";
             }
             catch (Exception ex)

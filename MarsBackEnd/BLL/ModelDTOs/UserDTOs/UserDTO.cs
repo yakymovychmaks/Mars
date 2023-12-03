@@ -16,8 +16,8 @@ namespace BLL.ModelDTOs.UserDTOs
         public string Password { get; set; }
         public string UserRole { get; set; }
         public string ProfilePicture { get; set; }
-        public List<PostDTO> PostsDTO { get; set; }
-        public List<ApointmentDTO> ApointmentsDTO { get; set; }
-        public List<CommentDTO> CommentsDTO { get; set; }
+        public List<PostDTO>? PostsDTO { get; set; }
+        public List<ApointmentDTO>? ApointmentsDTO { get; set; }
+        public List<CommentDTO>? CommentsDTO { get; set; }
     }
 }

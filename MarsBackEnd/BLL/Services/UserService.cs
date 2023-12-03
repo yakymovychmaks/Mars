@@ -51,7 +51,7 @@ namespace BLL.Services
         {
             try
             {
-                return _mapper.Map<IEnumerable<UserDTO>>(_userRepository.GetAll);
+                return _mapper.Map<IEnumerable<UserDTO>>(_userRepository.GetAll());
             }
             catch { return Enumerable.Empty<UserDTO>(); }
         }

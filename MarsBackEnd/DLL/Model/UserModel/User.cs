@@ -17,12 +17,12 @@ namespace DLL.Model.UserModel
         public string ProfilePicture { get; set; }
 
         [InverseProperty("User")]
-        public List<Post> Posts { get; set; }
+        public List<Post>? Posts { get; set; }
 
         [InverseProperty("User")]
-        public List<Apointment> Apointments { get; set; }
+        public List<Apointment>? Apointments { get; set; }
 
         [InverseProperty("User")]
-        public List<Comment> Comments { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }

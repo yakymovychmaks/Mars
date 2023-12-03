@@ -11,8 +11,8 @@ namespace MarsBackEnd.Models.UserAPIModeles
         public string Password { get; set; }
         public string UserRole { get; set; }
         public string ProfilePicture { get; set; }
-        public List<PostsAPIModel> PostsDTO { get; set; }
-        public List<ApointmentAPIModel> ApointmentsDTO { get; set; }
-        public List<CommentAPImodel> CommentsDTO { get; set; }
+        public List<PostsAPIModel>? PostsDTO { get; set; }
+        public List<ApointmentAPIModel>? ApointmentsDTO { get; set; }
+        public List<CommentAPImodel>? CommentsDTO { get; set; }
     }
 }
