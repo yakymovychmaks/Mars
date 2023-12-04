@@ -55,16 +55,17 @@ namespace MarsBackEnd.APIServices
                 return serializedResult;
             }catch (Exception ex) { return "AdminApiService error: "+ex.Message; }
         }
-        public string UpdataAdmin(int id ,UserAPIModel adminUpdate)
+        public string UpdataUser(int id ,UserAPIModel userUpdate)
         {
             try
             {
                 if(_userService.GetById(id) != null)
                 {
-                    _userService.Delete(_mapper.Map<UserDTO>(adminUpdate));   
+                    //_userService.Delete(_mapper.Map<UserDTO>(adminUpdate));   
                     //_userService.Delete(id); 
                     //_userService.Add(_mapper.Map<UserDTO>(adminUpdate));
-                    return "Success : " + JsonConvert.SerializeObject(adminUpdate);
+                    _userService.Update(_mapper.Map<UserDTO>(userUpdate));
+                    return "Success : " + JsonConvert.SerializeObject(userUpdate);
                 }
                 return "Admin not found";
             }
