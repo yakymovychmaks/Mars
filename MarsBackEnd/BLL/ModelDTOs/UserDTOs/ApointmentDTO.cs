@@ -14,6 +14,5 @@ namespace BLL.ModelDTOs.UserDTOs
         public DateTime time { get; set; }
         // Інші властивості для призначення
         public int UserId { get; set; }
-        public UserDTO UserDTO { get; set; }
     }
 }
