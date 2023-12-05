@@ -73,6 +73,7 @@ namespace DLL.Repository
             {
                 _DbContext.Comments.Update(entity);
                 _DbContext.SaveChanges();
+                return "Ok";
             }
             catch(Exception ex)
             {
