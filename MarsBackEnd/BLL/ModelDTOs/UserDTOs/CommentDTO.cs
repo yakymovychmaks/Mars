@@ -13,6 +13,5 @@ namespace BLL.ModelDTOs.UserDTOs
         public string Description { get; set; }
         // Інші властивості для коментаря
         public int UserId { get; set; }
-        public UserDTO User { get; set; }
     }
 }
