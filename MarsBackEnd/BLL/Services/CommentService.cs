@@ -24,6 +24,8 @@ namespace BLL.Services
         {
             try
             {
+                if (entity == null)
+                    return "can't be null";
                 return _commentRepository.Add(_mapper.Map<Comment>(entity));
             }
             catch (Exception ex)
@@ -36,6 +38,8 @@ namespace BLL.Services
         {
             try
             {
+                if (entity == null)
+                    return "can't be null";
                 return _commentRepository.Delete(entity.Id);
             }
             catch (Exception ex)
@@ -72,6 +76,8 @@ namespace BLL.Services
         {
             try
             {
+                if (entity == null)
+                    return "can't be null";
                 return _commentRepository.Update(_mapper.Map<Comment>(entity));
             }
             catch (Exception ex)

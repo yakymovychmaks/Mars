@@ -26,12 +26,8 @@ namespace BLL.Services
             try
             {
                 if(entity == null)
-                {
                     return "can't be null";
-
-                }
                 return _apointmentRepository.Add(_mapper.Map<Apointment>(entity));
-                
             }
             catch (Exception ex)
             {
@@ -43,6 +39,8 @@ namespace BLL.Services
         {
             try
             {
+                if (entity == null)
+                    return "can't be null";
                 return _apointmentRepository.Delete(entity.Id);
             }
             catch (Exception ex)
@@ -79,6 +77,8 @@ namespace BLL.Services
         {
             try
             {
+                if (entity == null)
+                    return "can't be null";
                 return _apointmentRepository.Update(_mapper.Map<Apointment>(entity));
             }
             catch (Exception ex)

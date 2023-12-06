@@ -18,20 +18,16 @@ namespace BLL.Services
         }
 
         public string Add(PostDTO entity)
-        {
+        {   
             try
             {
                 if(entity == null)
-                {
-                    return "wrong data";
-                }
-                var rez = _mapper.Map<Post>(entity);
-                _postRepository.Add(rez);
-                return "okey";
+                    return "can't be null";
+                return _postRepository.Add(_mapper.Map<Post>(entity));
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exception on BLL layer " + ex.Message;
             }
         }
 
@@ -39,16 +35,13 @@ namespace BLL.Services
         {
             try
             {
-                if (_postRepository.GetById(entity.Id) == null)
-                {
-                    return "cant be null";
-                }
+                if (entity == null)
+                    return "can't be null";
                 return _postRepository.Delete(entity.Id);
-
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exception on BLL layer " + ex.Message;
             }
         }
 
@@ -59,14 +52,14 @@ namespace BLL.Services
 
         public PostDTO? GetById(int id)
         {
-            if (id != 0)
+            try
             {
-
-                if (_postRepository.GetById(id) != null)
-                    return _mapper.Map<PostDTO>(_postRepository.GetById(id));
-                else return null;
+                return _mapper.Map<PostDTO>(_postRepository.GetById(id));
             }
-            else return null;
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         public string Update(PostDTO entity)
@@ -74,25 +67,12 @@ namespace BLL.Services
             try
             {
                 if(entity == null)
-                {
                     return "can't be null";
-                }
-                _postRepository.Update(_mapper.Map<Post>(entity));
-                return "okey";
+                return _postRepository.Update(_mapper.Map<Post>(entity));
             }
             catch(Exception ex)
             {
-                return ex.Message;
-            }
-        }
-        public string CreatePost(PostDTO postDTO)
-        {
-            try
-            {
-                return "ok";
-            }catch(Exception ex)
-            {
-                return ex.Message;
+                return "Exception on BLL layer " + ex.Message;
             }
         }
     }

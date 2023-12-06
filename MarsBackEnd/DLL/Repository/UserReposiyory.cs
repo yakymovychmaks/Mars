@@ -22,7 +22,7 @@ namespace DLL.Repository
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exeption on DLL layer" + ex.Message;
             }
         }
 
@@ -37,7 +37,7 @@ namespace DLL.Repository
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exeption on DLL layer" + ex.Message;
             }
         }
 
@@ -75,7 +75,7 @@ namespace DLL.Repository
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exeption on DLL layer" + ex.Message;
             }
         }
     }

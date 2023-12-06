@@ -20,15 +20,12 @@ namespace BLL.Services
             try
             {
                 if(entity == null)
-                {
                     return "can't be null";
-                }
-                _userRepository.Add(_mapper.Map<User>(entity));
-                return "ok";
+                return _userRepository.Add(_mapper.Map<User>(entity));
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exception on BLL layer "+ ex.Message;
             }
         }
 
@@ -38,12 +35,11 @@ namespace BLL.Services
             {
                 if (entity == null)
                     return "can't be null";
-                _userRepository.Delete(entity.Id);
-                return "It was delete";
+                return _userRepository.Delete(entity.Id);
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exception on BLL layer " + ex.Message;
             }
         }
 
@@ -72,12 +68,14 @@ namespace BLL.Services
         {
             try
             {
+                if (entity == null)
+                    return "can't be null";
                 _userRepository.Update(_mapper.Map<User>(entity));
                 return "Okey";
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exception on BLL layer " + ex.Message;
             }
         }
     }
