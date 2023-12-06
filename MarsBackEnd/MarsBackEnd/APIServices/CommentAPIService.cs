@@ -19,7 +19,7 @@ namespace MarsBackEnd.APIServices
         {
             return _commentService.Add(_mapper.Map<CommentDTO>(commentAPImodel));
         }
-        public string DeleteComent(CommentAPImodel commentAPImodel)
+        public string DeleteComment(CommentAPImodel commentAPImodel)
         {
             return _commentService.Delete(_mapper.Map<CommentDTO>(commentAPImodel));
         }
@@ -29,7 +29,11 @@ namespace MarsBackEnd.APIServices
         }
         public string GetCommentByIdAsJson(int id)
         {
-            return JsonConvert.SerializeObject(_mapper.Map<>)
+            return JsonConvert.SerializeObject(_mapper.Map<CommentAPImodel>(_commentService.GetById(id)));
+        }
+        public string Update(CommentAPImodel commentAPImodel)
+        {
+            return _commentService.Update(_mapper.Map<CommentDTO>(commentAPImodel));
         }
     }
 }
