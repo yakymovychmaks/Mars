@@ -18,10 +18,6 @@ namespace MarsBackEnd.APIServices
         }
         public string AddApointment(ApointmentAPIModel apointmentAPIModel)
         {
-            if (apointmentAPIModel == null)
-            {
-                return "Sorry";
-            }
             return _apointmentService.Add(_mapper.Map<ApointmentDTO>(apointmentAPIModel));
         }
         public string DeleteApointment(ApointmentAPIModel apointmentAPIModel)

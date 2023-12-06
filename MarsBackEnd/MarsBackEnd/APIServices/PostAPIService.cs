@@ -18,36 +18,19 @@ namespace MarsBackEnd.APIServices
         }
         public string GetAllPostsByJson()
         {
-            try
-            {
-                var models = _postService.GetAll();
-                var serializedObject = JsonConvert.SerializeObject(models);
-                return serializedObject;
-            }
-            catch (Exception ex)
-            {
-                return "Sorry: "+ex.Message;
-            }
+            return JsonConvert.SerializeObject(_mapper.Map<IEnumerable<PostsAPIModel>>(_postService.GetAll()));
         }
         public string GetPostByIdAsJson(int id)
         {
-            if (_postService.GetById(id) == null)
-                return "Nothing to found";
             return JsonConvert.SerializeObject(_postService.GetById(id));
         }
         public string AddPsot(PostsAPIModel postsAPIModel)
         {
-            if (postsAPIModel == null)
-                return "can't be null";
-            
             return _postService.Add(_mapper.Map<PostDTO>(postsAPIModel)); ;
         }
-        public string DeletePsot(int id) 
+        public string DeletePsot(PostsAPIModel postsAPIModel) 
         {
-            var postsAPIModel = _postService.GetById(id);
-            if (postsAPIModel == null) return " can't be null";
-            _postService.Delete(_mapper.Map<PostDTO>(postsAPIModel));
-            return "post was delete";
+            return _postService.Delete(_mapper.Map<PostDTO>(postsAPIModel));
         }
     }
 }

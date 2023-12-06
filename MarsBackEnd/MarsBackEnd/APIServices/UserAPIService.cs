@@ -19,71 +19,26 @@ namespace MarsBackEnd.APIServices
             _userService = userService;
             _mapper = mapper;
         }
-        public string GetAllAdminAsJson()
+        public string GetAllUsersAsJson()
         {
-            try
-            {
-                var result = _userService.GetAll();
-                var serializedResult = JsonConvert.SerializeObject(result);
-                return serializedResult;
-            }catch (Exception ex)
-            {
-                return "Sorry " + ex.Message;
-            }
+            return JsonConvert.SerializeObject(_mapper.Map<IEnumerable<UserAPIModel>>(_userService.GetAll()));
         }
-
-
-
         public string AddUser(UserAPIModel model)
         {
-
-            try
-            {
-                var adminAPIModel = model;
-                _userService.Add(_mapper.Map<UserDTO>(adminAPIModel));
-                return JsonConvert.SerializeObject(adminAPIModel);
-            }
-            catch (Exception ex) 
-            { return "AdminAPIService error : " + ex.Message; }
+            return _userService.Add(_mapper.Map<UserDTO>(model));
         }
-        public string GetAdminByIdJson(int id)
+        public string GetUserByIdJson(int id)
         {
-            try
-            {
-                var result = _userService.GetById(id);
-                var serializedResult = JsonConvert.SerializeObject(result);
-                return serializedResult;
-            }catch (Exception ex) { return "AdminApiService error: "+ex.Message; }
+            return JsonConvert.SerializeObject(_mapper.Map<UserAPIModel>(_postService.GetById(id)));
         }
         public string UpdataUser(int id ,UserAPIModel userUpdate)
         {
-            try
-            {
-                if(_userService.GetById(id) != null)
-                {
-                    //_userService.Delete(_mapper.Map<UserDTO>(adminUpdate));   
-                    //_userService.Delete(id); 
-                    //_userService.Add(_mapper.Map<UserDTO>(adminUpdate));
-                    _userService.Update(_mapper.Map<UserDTO>(userUpdate));
-                    return "Success : " + JsonConvert.SerializeObject(userUpdate);
-                }
-                return "Admin not found";
-            }
-            catch (Exception ex)
-            {
-                return "AdminAPIService" + ex.Message;
-            }
+            return _userService.Update(_mapper.Map<UserDTO>(userUpdate));
         }
 
         public string AddPost(PostsAPIModel addPost)
         {
-            try
-            {
-                return _postService.CreatePost(_mapper.Map<PostDTO>(addPost));
-            }catch (Exception ex)
-            {
-                return "Sorry: " + ex.Message;
-            }
+            return _postService.Add(_mapper.Map<PostDTO>(addPost));
         }
     }
 }
