@@ -16,48 +16,22 @@ namespace MarsBackEnd.Controllers
         [HttpGet]
         public IActionResult GetAllPosts()
         {
-            try
-            {
                 return Ok(_postAPIService.GetAllPostsByJson());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
         [HttpGet("{id}")]
         public IActionResult GetPostById(int id)
         {
-            try
-            {
                 return Ok(_postAPIService.GetPostByIdAsJson(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
         [HttpPost]
         public IActionResult AddPost([FromBody] PostsAPIModel postsAPIModel)
         {
-            try
-            {
                 return Ok(_postAPIService.AddPsot(postsAPIModel));
-            }catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
         [HttpDelete]
-        public IActionResult DeletePostById(int id) 
+        public IActionResult DeletePostById([FromBody] PostsAPIModel postsAPIModel) 
         {
-            try
-            {
-                return Ok(_postAPIService.DeletePsot(id));
-            }catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+                return Ok(_postAPIService.DeletePsot(postsAPIModel));
         }
     }
 }

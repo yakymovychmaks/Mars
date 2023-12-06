@@ -16,14 +16,12 @@ namespace MarsBackEnd.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_userAPIService.GetAllAdminAsJson());
+            return Ok(_userAPIService.GetAllUsersAsJson());
         }
         [HttpPost]
         public IActionResult AddUser([FromBody] UserAPIModel userAPI) 
         {
-            if (userAPI == null) { return BadRequest("Can't be null"); }
-            _userAPIService.AddUser(userAPI);
-            return Ok(_userAPIService.GetAllAdminAsJson());
+            return Ok(_userAPIService.AddUser(userAPI););
         }
     }
 }
