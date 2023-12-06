@@ -74,6 +74,7 @@ namespace DLL.Repository
             try
             {
                 _DbContext.Update(entity);
+                _DbContext.SaveChanges();
                 return "DLL ok";
             }
             catch (Exception ex)
