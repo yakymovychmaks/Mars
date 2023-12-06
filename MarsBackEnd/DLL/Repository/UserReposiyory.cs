@@ -31,13 +31,9 @@ namespace DLL.Repository
             try
             {
                 var removeObj = _dbContext.Users.Find(id);
-                if ( removeObj== null)
-                {
-                    return "Sorry wrong id";
-                }
                 _dbContext.Users.Remove(removeObj);
                 _dbContext.SaveChanges();
-                return "Delete was succesfull";
+                return "Delete was succesfull" + removeObj.FullName;
             }
             catch (Exception ex)
             {
@@ -73,8 +69,6 @@ namespace DLL.Repository
         {
             try
             {
-                if (_dbContext.Users.Find(entity.Id) == null)
-                    return "error: wrong user";
                 _dbContext.Users.Update(entity);
                 _dbContext.SaveChanges();
                 return "it's update";
