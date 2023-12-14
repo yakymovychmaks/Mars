@@ -21,7 +21,8 @@ namespace MarsBackEnd.Controllers
         [HttpPost]
         public IActionResult AddUser([FromBody] UserAPIModel userAPI) 
         {
-            return Ok(_userAPIService.AddUser(userAPI););
+            return Ok(_userAPIService.UpdataUser(1,userAPI));
         }
+        
     }
 }

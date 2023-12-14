@@ -28,7 +28,7 @@ namespace MarsBackEnd.Controllers
         [HttpPost]
         public IActionResult AddApointment([FromBody] ApointmentAPIModel apointmentAPIModel)
         {
-            return Ok(_apointmentAPIService.AddApointment(apointmentAPIModel);
+            return Ok(_apointmentAPIService.AddApointment(apointmentAPIModel));
         }
         [HttpDelete]
         public IActionResult DeleteApointment([FromBody] ApointmentAPIModel apointmentAPIModel)

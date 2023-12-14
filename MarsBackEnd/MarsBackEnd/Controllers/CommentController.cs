@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MarsBackEnd.Controllers
 {
-    [Route("api/coment")]
+    [Route("api/comment")]
     [ApiController]
     public class CommentController : ControllerBase
     {

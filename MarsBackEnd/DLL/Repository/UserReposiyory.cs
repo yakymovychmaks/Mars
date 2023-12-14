@@ -69,13 +69,36 @@ namespace DLL.Repository
         {
             try
             {
-                _dbContext.Users.Update(entity);
+                var user = new User
+                {
+                    Id = 1,
+                    FullName = "John Doe",
+                    Email = "john1",
+                    Password = "password123",
+                    UserRole = "User",
+                    ProfilePicture = "profile.jpg",
+                    Posts = new List<Post>(),
+                    Apointments = new List<Apointment>(),
+                    Comments = new List<Comment>()
+                };
+                var rezult = _dbContext.Users.Find(user.Id);
+                if (rezult == null)
+                    return "it's null";
+                rezult.UserRole = user.UserRole;
+                rezult.Password = user.Password;
+                rezult.Email = user .Email;
+                rezult.FullName = user .FullName;
+                rezult.Apointments = user.Apointments;
+                rezult.Comments = user.Comments;
+                rezult.Posts = user.Posts;
                 _dbContext.SaveChanges();
+                //_dbContext.Users.Update(entity);
+                //_dbContext.SaveChanges();
                 return "it's update";
             }
             catch (Exception ex)
             {
-                return "Exeption on DLL layer" + ex.Message;
+                return "Exception on DLL layer" + ex.Message;
             }
         }
     }

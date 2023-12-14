@@ -9,10 +9,10 @@ namespace DLL.DataAccess
         {
             Database.EnsureCreated();
         }
-        public DbSet<User> Users { get; set; }  
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Apointment> Apointsments { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<User> Users { get; set; }  
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Apointment> Apointsments { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
