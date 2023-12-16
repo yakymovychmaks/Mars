@@ -33,17 +33,19 @@ namespace User_Service_Test
                 .Options;
             _UserRepository = new UserReposiyory(new ApplicationDbContext(options));
         }
-        [Test]
+        [Test, Order(1)]
         public void Add_ValidUser_AddUserAndReturnSuccessMessage()
         {
             using (var dbContext = new ApplicationDbContext(options))
             {
-                var result = _UserRepository.Add(user);
-                Assert.AreEqual("User was added", result);
+                
+                _UserRepository.Add(user);
+                var result = _UserRepository.GetById(user.Id);
+                Assert.AreEqual(user, result);
                 dbContext.SaveChanges();
             }
         }
-        [Test]
+        [Test,Order(2)]
         public void Update_ValidUser_UpdatesUserAndReturnsSuccessMessage()
         {
             // Arrange
@@ -51,20 +53,17 @@ namespace User_Service_Test
 
             using (var dbContext = new ApplicationDbContext(options))
             {
-                
-
-
-                
                 // Act
-                var result = _UserRepository.Update(user);
-
+                user.FullName = "Test";
+                _UserRepository.Update(user);
+                var result = _UserRepository.GetById(user.Id);
                 // Assert
-                Assert.AreEqual("it's update", result);
+                Assert.AreEqual(user.ToString(), result.ToString());
                 dbContext.SaveChanges(); // Ensure changes are saved to the in-memory database
             }
         }
 
-        [Test]
+        [Test,Order(3)]
         public void Update_ExceptionThrown_ReturnsErrorMessage()
         {
             // Arrange
@@ -95,6 +94,17 @@ namespace User_Service_Test
 
                 // Assert
                 Assert.AreEqual("it's null", result);
+            }
+        }
+        [Test,Order(4)]
+        public void Delete_ValidUser_DeleteAndReturnSuccesssMessage()
+        {
+            using(var dbContext = new ApplicationDbContext(options))
+            {
+                
+                var result = _UserRepository.Delete(user.Id);
+                 dbContext.SaveChanges();
+                Assert.AreEqual("Delete was succesfull", result.ToString());
             }
         }
     }

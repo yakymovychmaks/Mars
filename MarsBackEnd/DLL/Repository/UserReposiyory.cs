@@ -33,7 +33,7 @@ namespace DLL.Repository
                 var removeObj = _dbContext.Users.Find(id);
                 _dbContext.Users.Remove(removeObj);
                 _dbContext.SaveChanges();
-                return "Delete was succesfull" + removeObj.FullName;
+                return "Delete was succesfull";
             }
             catch (Exception ex)
             {
@@ -57,11 +57,14 @@ namespace DLL.Repository
         {
             try
             {
-                return _dbContext.Users.Find(id);
+                var result = _dbContext.Users.Find(id);
+                if (result == null)
+                    throw new Exception("it's null");
+                return result;
             }
-            catch
+            catch(Exception ex) 
             {
-                return null;
+                throw new Exception("Sorry" + ex.Message);
             }
         }
 
@@ -72,13 +75,7 @@ namespace DLL.Repository
                 var rezult = _dbContext.Users.Find(entity.Id);
                 if (rezult == null)
                     return "it's null";
-                rezult.UserRole = entity.UserRole;
-                rezult.Password = entity.Password;
-                rezult.Email = entity .Email;
-                rezult.FullName = entity.FullName;
-                rezult.Apointments = entity.Apointments;
-                rezult.Comments = entity.Comments;
-                rezult.Posts = entity.Posts;
+                _dbContext.Entry(rezult).CurrentValues.SetValues(entity);
                 _dbContext.SaveChanges();
                 //_dbContext.Users.Update(entity);
                 //_dbContext.SaveChanges();
