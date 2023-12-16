@@ -29,13 +29,13 @@ namespace BLL.Services
             }
         }
 
-        public string Delete(UserDTO entity)
+        public string Delete(int id)
         {
             try
             {
-                if (entity == null)
+                if (id == null)
                     return "can't be null";
-                return _userRepository.Delete(entity.Id);
+                return _userRepository.Delete(id);
             }
             catch (Exception ex)
             {
