@@ -1,6 +1,7 @@
 ﻿using DLL.DataAccess;
 using DLL.Interface;
 using DLL.Model.UserModel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace DLL.Repository
             {
                 _DbContext.Posts.Add(entity);
                 _DbContext.SaveChanges();
-                return "okey";
+                return "Post was added";
             }
             catch (Exception ex)
             {
@@ -37,7 +38,7 @@ namespace DLL.Repository
             {
                 _DbContext.Posts.Remove(_DbContext.Posts.Find(id));
                 _DbContext.SaveChanges();
-                return "okey";
+                return "Delete was succesfull";
             }
             catch (Exception ex)
             {
@@ -67,7 +68,10 @@ namespace DLL.Repository
         {
             try
             {
-                _DbContext.Posts.Update(entity);
+                var rezult = _DbContext.Posts.Find(entity.Id);
+                if (rezult == null)
+                    return "it's null";
+                _DbContext.Entry(rezult).CurrentValues.SetValues(entity);
                 _DbContext.SaveChanges();
                 return "It was update";
             }

@@ -8,11 +8,11 @@ using System;
 namespace User_Service_Test
 {
     [TestFixture]
-    public class UserServiceTests
+    public class UserRepositoryTest
     {
-        DbContextOptions<ApplicationDbContext> options;
-        UserReposiyory _UserRepository;
-        User user;
+        public DbContextOptions<ApplicationDbContext> options;
+        public UserReposiyory _UserRepository;
+        public User user;
 
         [SetUp] public void SetUp()
         {

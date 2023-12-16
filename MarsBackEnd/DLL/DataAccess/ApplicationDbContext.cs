@@ -17,7 +17,7 @@ namespace DLL.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Post>()
-                .HasOne(p => p.User)
+                .HasOne(p => p.user)
                 .WithMany(u => u.Posts)
                 .HasForeignKey(p => p.UserId);
 

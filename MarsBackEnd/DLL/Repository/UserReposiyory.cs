@@ -47,9 +47,9 @@ namespace DLL.Repository
             {
                 return _dbContext.Users.ToList();
             }
-            catch 
+            catch (Exception ex)
             {
-                return new List<User>();
+                throw new Exception("Sorry " + ex.Message);
             }
         }
 
