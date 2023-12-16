@@ -22,7 +22,7 @@ namespace MarsBackEnd.APIServices
         }
         public string DeleteApointment(ApointmentAPIModel apointmentAPIModel)
         {
-            return _apointmentService.Delete(_mapper.Map<ApointmentDTO>(apointmentAPIModel));
+            return _apointmentService.Delete(apointmentAPIModel.Id);
         }
         public string GetAllApointmentAsJosn()
         {

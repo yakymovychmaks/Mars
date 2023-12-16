@@ -21,7 +21,7 @@ namespace MarsBackEnd.APIServices
         }
         public string DeleteComment(CommentAPImodel commentAPImodel)
         {
-            return _commentService.Delete(_mapper.Map<CommentDTO>(commentAPImodel));
+            return _commentService.Delete(commentAPImodel.Id);
         }
         public string GetAllCommentAsJson()
         {
