@@ -18,11 +18,17 @@ namespace MarsBackEnd.Controllers
         {
             return Ok(_userAPIService.GetAllUsersAsJson());
         }
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            return Ok(_userAPIService.GetUserByIdJson(id));
+        }
         [HttpPost]
         public IActionResult AddUser([FromBody] UserAPIModel userAPI) 
         {
             return Ok(_userAPIService.UpdataUser(1,userAPI));
         }
+
         
     }
 }
