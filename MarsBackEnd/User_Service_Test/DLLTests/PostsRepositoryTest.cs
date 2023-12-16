@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 
-namespace User_Service_Test
+namespace User_Service_Test.DLLTests
 {
     [TestFixture]
     public class PostsRepositoryTest
@@ -37,7 +37,7 @@ namespace User_Service_Test
                     Apointments = new List<Apointment>(),
                     Comments = new List<Comment>()
                 }
-        };
+            };
             _PostReporitory = new PostRepository(new ApplicationDbContext(options));
 
         }
@@ -51,21 +51,21 @@ namespace User_Service_Test
                 Assert.AreEqual("Post was added", result);
             }
         }
-        [Test,Order(2)]
+        [Test, Order(2)]
         public void Update_ValidPost_UpdatePostAndReturnSuccessMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 post.title = "New Title";
                 var rezult = _PostReporitory.Update(post);
                 dbContext.SaveChanges();
-                Assert.AreEqual("It was update",rezult.ToString());
+                Assert.AreEqual("It was update", rezult.ToString());
             }
         }
-        [Test,Order(3)]
+        [Test, Order(3)]
         public void GetBuId_ValidPost_GetBuIdPosyAndReturnSeccessMessage()
         {
-            using( var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _PostReporitory.GetById(post.Id);
                 dbContext.SaveChanges();
@@ -75,7 +75,7 @@ namespace User_Service_Test
         [Test, Order(4)]
         public void Delete_ValidPost_DeletePostAndReturnSeccessMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _PostReporitory.Delete(post.Id);
                 dbContext.SaveChanges();

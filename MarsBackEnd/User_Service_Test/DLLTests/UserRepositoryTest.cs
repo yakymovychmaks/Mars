@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 
-namespace User_Service_Test
+namespace User_Service_Test.DLLTests
 {
     [TestFixture]
     public class UserRepositoryTest
@@ -14,7 +14,8 @@ namespace User_Service_Test
         public UserReposiyory _UserRepository;
         public User user;
 
-        [SetUp] public void SetUp()
+        [SetUp]
+        public void SetUp()
         {
             user = new User
             {
@@ -38,14 +39,14 @@ namespace User_Service_Test
         {
             using (var dbContext = new ApplicationDbContext(options))
             {
-                
+
                 _UserRepository.Add(user);
                 var result = _UserRepository.GetById(user.Id);
                 Assert.AreEqual(user, result);
                 dbContext.SaveChanges();
             }
         }
-        [Test,Order(2)]
+        [Test, Order(2)]
         public void Update_ValidUser_UpdatesUserAndReturnsSuccessMessage()
         {
             // Arrange
@@ -63,7 +64,7 @@ namespace User_Service_Test
             }
         }
 
-        [Test,Order(3)]
+        [Test, Order(3)]
         public void Update_ExceptionThrown_ReturnsErrorMessage()
         {
             // Arrange
@@ -71,7 +72,7 @@ namespace User_Service_Test
 
             using (var dbContext = new ApplicationDbContext(options))
             {
-                
+
 
                 var wrongUser = new User
                 {
@@ -96,14 +97,14 @@ namespace User_Service_Test
                 Assert.AreEqual("it's null", result);
             }
         }
-        [Test,Order(4)]
+        [Test, Order(4)]
         public void Delete_ValidUser_DeleteAndReturnSuccesssMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
-                
+
                 var result = _UserRepository.Delete(user.Id);
-                 dbContext.SaveChanges();
+                dbContext.SaveChanges();
                 Assert.AreEqual("Delete was succesfull", result.ToString());
             }
         }

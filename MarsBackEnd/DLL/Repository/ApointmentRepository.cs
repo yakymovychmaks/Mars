@@ -22,7 +22,7 @@ namespace DLL.Repository
             {
                 _DbContext.Apointsments.Add(entity);
                 _DbContext.SaveChanges();
-                return "DLL ok";
+                return "Apointment was added";
             }
             catch (Exception ex)
             {
@@ -73,9 +73,12 @@ namespace DLL.Repository
         {
             try
             {
-                _DbContext.Update(entity);
+                var rezult = _DbContext.Apointsments.Find(entity.Id);
+                if (rezult == null)
+                    return "it's null";
+                _DbContext.Entry(rezult).CurrentValues.SetValues(entity);
                 _DbContext.SaveChanges();
-                return "DLL ok";
+                return "It was update";
             }
             catch (Exception ex)
             {

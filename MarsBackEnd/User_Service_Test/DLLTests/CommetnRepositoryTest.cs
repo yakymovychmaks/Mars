@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 
-namespace User_Service_Test
+namespace User_Service_Test.DLLTests
 {
     [TestFixture]
     public class CommetnRepositoryTest
@@ -13,7 +13,8 @@ namespace User_Service_Test
         DbContextOptions<ApplicationDbContext> options;
         CommentRepository _CommentReporitory;
         Comment comment;
-        [SetUp] public void SetUp()
+        [SetUp]
+        public void SetUp()
         {
             options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
@@ -41,7 +42,7 @@ namespace User_Service_Test
         [Test, Order(1)]
         public void Add_ValidComment_AddCommentAndReturnSuccessMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _CommentReporitory.Add(comment);
                 dbContext.SaveChanges();
@@ -51,7 +52,7 @@ namespace User_Service_Test
         [Test, Order(2)]
         public void GetBuId_ValidComment_GetBuIdCommentAndReturnSuccessMessage()
         {
-            using( var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _CommentReporitory.GetById(comment.Id);
                 Assert.AreEqual(comment.ToString(), result.ToString());
@@ -60,7 +61,7 @@ namespace User_Service_Test
         [Test, Order(3)]
         public void Update_ValidComment_UpdateCommentAndReturnSuccessMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _CommentReporitory.Update(comment);
                 dbContext.SaveChanges();
@@ -70,7 +71,7 @@ namespace User_Service_Test
         [Test, Order(4)]
         public void Delete_ValidComment_DeleteCommentAndReturnSuccessMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _CommentReporitory.Delete(comment.Id);
                 dbContext.SaveChanges();

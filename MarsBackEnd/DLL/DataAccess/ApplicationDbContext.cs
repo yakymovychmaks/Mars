@@ -22,7 +22,7 @@ namespace DLL.DataAccess
                 .HasForeignKey(p => p.UserId);
 
             modelBuilder.Entity<Apointment>()
-                .HasOne(a => a.User)
+                .HasOne(a => a.user)
                 .WithMany(u => u.Apointments)
                 .HasForeignKey(a => a.UserId);
 
