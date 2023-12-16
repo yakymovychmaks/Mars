@@ -12,7 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLL", "DLL\DLL.csproj", "{F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{A5985630-CA9A-4342-A043-B9B298107BAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User_Service_Test", "User_Service_Test\User_Service_Test.csproj", "{B04DBA7F-7BEE-4E0A-B66E-24B61673E034}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "User_Service_Test\Tests.csproj", "{B04DBA7F-7BEE-4E0A-B66E-24B61673E034}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
