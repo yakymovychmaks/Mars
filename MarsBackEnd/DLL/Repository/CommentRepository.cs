@@ -9,24 +9,24 @@ using System.Threading.Tasks;
 
 namespace DLL.Repository
 {
-    public class ApointmentRepository : IRepository<Apointment>
+    public class CommentRepository : IRepository<Comment>
     {
         private readonly ApplicationDbContext _DbContext;
-        public ApointmentRepository(ApplicationDbContext context)
+        public CommentRepository (ApplicationDbContext context)
         {
             _DbContext = context;
         }
-        public string Add(Apointment entity)
+        public string Add(Comment entity)
         {
             try
             {
-                _DbContext.Apointsments.Add(entity);
+                _DbContext.Comments.Add(entity);
                 _DbContext.SaveChanges();
-                return "Apointment was added";
+                return "Comment was added";
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return "Exeption on DLL layer" + ex.Message;
             }
         }
 
@@ -34,34 +34,20 @@ namespace DLL.Repository
         {
             try
             {
-                _DbContext.Apointsments.Remove(_DbContext.Apointsments.Find(id));
+                _DbContext.Comments.Remove(_DbContext.Comments.Find(id));
                 _DbContext.SaveChanges();
-                return "Dll ok";
-            }
-            catch (Exception ex)
+                return "Delete was succesfull";
+            }catch (Exception ex)
             {
-                return ex.Message;
-            }
-        }
-
-        public IEnumerable<Apointment> GetAll()
-        {
-            try
-            {
-                return _DbContext.Apointsments.ToList();
-            }
-            catch (Exception ex)
-            {
-                return null;
+                return "Exeption on DLL layer" + ex.Message;
             }
         }
 
-        public Apointment GetById(int id)
+        public IEnumerable<Comment> GetAll()
         {
             try
             {
-                return _DbContext.Apointsments.Find(id);
-
+                return _DbContext.Comments.ToList();
             }
             catch (Exception ex)
             {
@@ -69,20 +55,32 @@ namespace DLL.Repository
             }
         }
 
-        public string Update(Apointment entity)
+        public Comment GetById(int id)
         {
             try
             {
-                var rezult = _DbContext.Apointsments.Find(entity.Id);
+                return _DbContext.Comments.Find(id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public string Update(Comment entity)
+        {
+            try
+            {
+                var rezult = _DbContext.Comments.Find(entity.Id);
                 if (rezult == null)
                     return "it's null";
                 _DbContext.Entry(rezult).CurrentValues.SetValues(entity);
                 _DbContext.SaveChanges();
                 return "It was update";
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                return ex.Message;  
+                return "Exeption on DLL layer" + ex.Message;
             }
         }
     }

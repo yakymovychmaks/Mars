@@ -11,27 +11,26 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class ApointmentService : IService<ApointmentDTO>
+    public class CommentService : IService<CommentDTO>
     {
-        public ApointmentRepository _apointmentRepository;
-        public IMapper _mapper;
-        public ApointmentService(ApointmentRepository apointmentRepository, IMapper mapper)
+        private CommentRepository _commentRepository;
+        private IMapper _mapper;
+        public CommentService (CommentRepository commentRepository, IMapper mapper)
         {
-            _apointmentRepository = apointmentRepository;
+            _commentRepository = commentRepository;
             _mapper = mapper;
         }
-
-        public string Add(ApointmentDTO entity)
+        public string Add(CommentDTO entity)
         {
             try
             {
-                if(entity == null)
+                if (entity == null)
                     return "can't be null";
-                return _apointmentRepository.Add(_mapper.Map<Apointment>(entity));
+                return _commentRepository.Add(_mapper.Map<Comment>(entity));
             }
             catch (Exception ex)
             {
-                return "Exeption on the BLL layer"+ ex.Message;
+                return "Exeption on the BLL layer" + ex.Message;
             }
         }
 
@@ -41,45 +40,45 @@ namespace BLL.Services
             {
                 if (id == null)
                     return "can't be null";
-                return _apointmentRepository.Delete(id);
+                return _commentRepository.Delete(id);
             }
             catch (Exception ex)
             {
-                return "Exeption on the BLL layer"+ ex.Message;
+                return "Exeption on the BLL layer" + ex.Message;
             }
         }
 
-        public IEnumerable<ApointmentDTO> GetAll()
+        public IEnumerable<CommentDTO> GetAll()
         {
             try
             {
-                return _mapper.Map<IEnumerable<ApointmentDTO>>(_apointmentRepository.GetAll());
+                return _mapper.Map<IEnumerable<CommentDTO>>(_commentRepository.GetAll());
             }
-            catch (Exception ex)
-            {
-                return Enumerable.Empty<ApointmentDTO>();
-            }
-        }
-
-        public ApointmentDTO GetById(int id)
-        {
-            try
-            {
-                return _mapper.Map<ApointmentDTO>(_apointmentRepository.GetById(id));
-            }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return null;
             }
         }
 
-        public string Update(ApointmentDTO entity)
+        public CommentDTO GetById(int id)
+        {
+            try
+            {
+                return _mapper.Map<CommentDTO>(_commentRepository.GetById(id));
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public string Update(CommentDTO entity)
         {
             try
             {
                 if (entity == null)
                     return "can't be null";
-                return _apointmentRepository.Update(_mapper.Map<Apointment>(entity));
+                return _commentRepository.Update(_mapper.Map<Comment>(entity));
             }
             catch (Exception ex)
             {

@@ -1,39 +1,79 @@
 ﻿using AutoMapper;
 using BLL.Interface;
-using BLL.ModelDTOs.AdminDTOs;
+using BLL.ModelDTOs.UserDTOs;
+using DLL.Model.UserModel;
 using DLL.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BLL.Services
 {
-    public class PostService : IService<PostsDTO>
+    public class PostService : IService<PostDTO>
     {
         private PostRepository _postRepository;
         private IMapper _mapper;
-        public void SetRepositorys(PostRepository postRepository, IMapper mapper)
+        public PostService(PostRepository postRepository, IMapper mapper)
         {
             _postRepository = postRepository;
             _mapper = mapper;
         }
-        public IEnumerable<PostsDTO> GetAll()
-        {
-            return _mapper.Map<IEnumerable<PostsDTO>>(_postRepository.GetAll());
+
+        public string Add(PostDTO entity)
+        {   
+            try
+            {
+                if(entity == null)
+                    return "can't be null";
+                return _postRepository.Add(_mapper.Map<Post>(entity));
+            }
+            catch (Exception ex)
+            {
+                return "Exception on BLL layer " + ex.Message;
+            }
         }
 
-        public PostsDTO? GetById(int id)
+        public string Delete(int id)
         {
-            if (id != 0)
+            try
             {
-
-                if (_postRepository.GetById(id) != null)
-                    return _mapper.Map<PostsDTO>(_postRepository.GetById(id));
-                else return null;
+                if (id == null)
+                    return "can't be null";
+                return _postRepository.Delete(id);
             }
-            else return null;
+            catch (Exception ex)
+            {
+                return "Exception on BLL layer " + ex.Message;
+            }
+        }
+
+        public IEnumerable<PostDTO> GetAll()
+        {
+            return _mapper.Map<IEnumerable<PostDTO>>(_postRepository.GetAll());
+        }
+
+        public PostDTO? GetById(int id)
+        {
+            try
+            {
+                return _mapper.Map<PostDTO>(_postRepository.GetById(id));
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public string Update(PostDTO entity)
+        {
+            try
+            {
+                if(entity == null)
+                    return "can't be null";
+                return _postRepository.Update(_mapper.Map<Post>(entity));
+            }
+            catch(Exception ex)
+            {
+                return "Exception on BLL layer " + ex.Message;
+            }
         }
     }
 }
