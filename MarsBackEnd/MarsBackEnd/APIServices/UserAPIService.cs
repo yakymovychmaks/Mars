@@ -31,7 +31,7 @@ namespace MarsBackEnd.APIServices
         {
             return JsonConvert.SerializeObject(_mapper.Map<UserAPIModel>(_postService.GetById(id)));
         }
-        public string UpdataUser(int id ,UserAPIModel userUpdate)
+        public string UpdataUser(UserAPIModel userUpdate)
         {
             return _userService.Update(_mapper.Map<UserDTO>(userUpdate));
         }
@@ -39,6 +39,10 @@ namespace MarsBackEnd.APIServices
         public string AddPost(PostsAPIModel addPost)
         {
             return _postService.Add(_mapper.Map<PostDTO>(addPost));
+        }
+        public string DeleteUser(int id)
+        {
+            return _userService.Delete(id);
         }
     }
 }
