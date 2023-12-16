@@ -8,26 +8,24 @@ using System;
 namespace User_Service_Test
 {
     [TestFixture]
-    public class PostsRepositoryTest
+    public class CommetnRepositoryTest
     {
         DbContextOptions<ApplicationDbContext> options;
-        PostRepository _PostReporitory;
-        Post post;
-        [SetUp]
-        public void SetUp()
+        CommentRepository _CommentReporitory;
+        Comment comment;
+        [SetUp] public void SetUp()
         {
             options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
                 .Options;
-            post = new Post
+            comment = new Comment
             {
-                Id = 2,
-                title = "Title",
-                Description = "Description",
-                UserId = 2,
+                Id = 1,
+                Description = "Test",
+                UserId = 1,
                 user = new User
                 {
-                    Id = 2,
+                    Id = 1,
                     FullName = "John Doe",
                     Email = "john.doe@example.com",
                     Password = "password123",
@@ -37,47 +35,44 @@ namespace User_Service_Test
                     Apointments = new List<Apointment>(),
                     Comments = new List<Comment>()
                 }
-        };
-            _PostReporitory = new PostRepository(new ApplicationDbContext(options));
-
+            };
+            _CommentReporitory = new CommentRepository(new ApplicationDbContext(options));
         }
         [Test, Order(1)]
-        public void Add_Validpost_AddPostAndReturnSuccessNessage()
-        {
-            using (var dbContext = new ApplicationDbContext(options))
-            {
-                var result = _PostReporitory.Add(post);
-                dbContext.SaveChanges();
-                Assert.AreEqual("Post was added", result);
-            }
-        }
-        [Test,Order(2)]
-        public void Update_ValidPost_UpdatePostAndReturnSuccessMessage()
+        public void Add_ValidComment_AddCommentAndReturnSuccessMessage()
         {
             using(var dbContext = new ApplicationDbContext(options))
             {
-                post.title = "New Title";
-                var rezult = _PostReporitory.Update(post);
+                var result = _CommentReporitory.Add(comment);
                 dbContext.SaveChanges();
-                Assert.AreEqual("It was update",rezult.ToString());
+                Assert.AreEqual("Comment was added", result);
             }
         }
-        [Test,Order(3)]
-        public void GetBuId_ValidPost_GetBuIdPosyAndReturnSeccessMessage()
+        [Test, Order(2)]
+        public void GetBuId_ValidComment_GetBuIdCommentAndReturnSuccessMessage()
         {
             using( var dbContext = new ApplicationDbContext(options))
             {
-                var result = _PostReporitory.GetById(post.Id);
-                dbContext.SaveChanges();
-                Assert.AreEqual(post.ToString(), result.ToString());
+                var result = _CommentReporitory.GetById(comment.Id);
+                Assert.AreEqual(comment.ToString(), result.ToString());
             }
         }
-        [Test, Order(4)]
-        public void Delete_ValidPost_DeletePostAndReturnSeccessMessage()
+        [Test, Order(3)]
+        public void Update_ValidComment_UpdateCommentAndReturnSuccessMessage()
         {
             using(var dbContext = new ApplicationDbContext(options))
             {
-                var result = _PostReporitory.Delete(post.Id);
+                var result = _CommentReporitory.Update(comment);
+                dbContext.SaveChanges();
+                Assert.AreEqual("It was update", result);
+            }
+        }
+        [Test, Order(4)]
+        public void Delete_ValidComment_DeleteCommentAndReturnSuccessMessage()
+        {
+            using(var dbContext = new ApplicationDbContext(options))
+            {
+                var result = _CommentReporitory.Delete(comment.Id);
                 dbContext.SaveChanges();
                 Assert.AreEqual("Delete was succesfull", result);
             }

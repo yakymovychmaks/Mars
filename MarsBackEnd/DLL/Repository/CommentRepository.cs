@@ -22,7 +22,7 @@ namespace DLL.Repository
             {
                 _DbContext.Comments.Add(entity);
                 _DbContext.SaveChanges();
-                return "Ok";
+                return "Comment was added";
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace DLL.Repository
             {
                 _DbContext.Comments.Remove(_DbContext.Comments.Find(id));
                 _DbContext.SaveChanges();
-                return "Ok";
+                return "Delete was succesfull";
             }catch (Exception ex)
             {
                 return "Exeption on DLL layer" + ex.Message;
@@ -71,9 +71,12 @@ namespace DLL.Repository
         {
             try
             {
-                _DbContext.Comments.Update(entity);
+                var rezult = _DbContext.Comments.Find(entity.Id);
+                if (rezult == null)
+                    return "it's null";
+                _DbContext.Entry(rezult).CurrentValues.SetValues(entity);
                 _DbContext.SaveChanges();
-                return "Ok";
+                return "It was update";
             }
             catch(Exception ex)
             {

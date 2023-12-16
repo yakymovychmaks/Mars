@@ -27,7 +27,7 @@ namespace DLL.DataAccess
                 .HasForeignKey(a => a.UserId);
 
             modelBuilder.Entity<Comment>()
-                .HasOne(c => c.User)
+                .HasOne(c => c.user)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId);
         }
