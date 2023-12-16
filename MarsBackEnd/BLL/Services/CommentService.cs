@@ -34,13 +34,13 @@ namespace BLL.Services
             }
         }
 
-        public string Delete(CommentDTO entity)
+        public string Delete(int id)
         {
             try
             {
-                if (entity == null)
+                if (id == null)
                     return "can't be null";
-                return _commentRepository.Delete(entity.Id);
+                return _commentRepository.Delete(id);
             }
             catch (Exception ex)
             {

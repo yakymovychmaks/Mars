@@ -31,13 +31,13 @@ namespace BLL.Services
             }
         }
 
-        public string Delete(PostDTO entity)
+        public string Delete(int id)
         {
             try
             {
-                if (entity == null)
+                if (id == null)
                     return "can't be null";
-                return _postRepository.Delete(entity.Id);
+                return _postRepository.Delete(id);
             }
             catch (Exception ex)
             {

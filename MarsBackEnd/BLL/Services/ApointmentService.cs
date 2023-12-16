@@ -35,13 +35,13 @@ namespace BLL.Services
             }
         }
 
-        public string Delete(ApointmentDTO entity)
+        public string Delete(int id)
         {
             try
             {
-                if (entity == null)
+                if (id == null)
                     return "can't be null";
-                return _apointmentRepository.Delete(entity.Id);
+                return _apointmentRepository.Delete(id);
             }
             catch (Exception ex)
             {
