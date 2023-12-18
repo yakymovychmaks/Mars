@@ -9,14 +9,8 @@ namespace DLL.Model.UserModel
 {
     public class Comment
     {
-
- 
             public int Id { get; set; }
             public string Description { get; set; }
-            // Інші властивості для коментаря
-
-            [ForeignKey("UserId")]
-            public int UserId { get; set; }
             public User user { get; set; }
 
     }
