@@ -32,9 +32,9 @@ namespace DLL.Repository
 
         public async Task<Profile> Update(Profile entity)
         {
-            _dbContext.Profiles.Update(entity);
+            var result = await _dbContext.Profiles.FindAsync(entity.Id);
+            _dbContext.Entry(result).CurrentValues.SetValues(entity);
             await _dbContext.SaveChangesAsync();
-
             return entity;
         }
     }
