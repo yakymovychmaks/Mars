@@ -30,7 +30,7 @@ namespace MarsBackEnd.APIServices
         }
         public string DeletePsot(PostsAPIModel postsAPIModel) 
         {
-            return _postService.Delete(_mapper.Map<PostDTO>(postsAPIModel));
+            return _postService.Delete(postsAPIModel.Id);
         }
         public string UpdatePost(PostsAPIModel post)
         {

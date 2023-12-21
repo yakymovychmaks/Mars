@@ -13,72 +13,42 @@ namespace DLL.Repository
 {
     public class PostRepository : IRepository<Post>
     {
-        private readonly ApplicationDbContext _DbContext;
+        private readonly ApplicationDbContext _dbContext;
         public PostRepository(ApplicationDbContext context)
         {
-            _DbContext = context;
+            _dbContext = context;
         }
-        public string Add(Post entity)
+        public async Task Create(Post entity)
         {
-            try
-            {
-                _DbContext.Posts.Add(entity);
-                _DbContext.SaveChanges();
-                return "Post was added";
-            }
-            catch (Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            await _dbContext.Posts.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public string Delete(int id)
+        public async Task Delete(Post entity)
         {
-            try
-            {
-                _DbContext.Posts.Remove(_DbContext.Posts.Find(id));
-                _DbContext.SaveChanges();
-                return "Delete was succesfull";
-            }
-            catch (Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            _dbContext.Posts.Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IEnumerable<Post> GetAll()
         {
-            try
-            {
-                return _DbContext.Posts.ToList();
-            }
-            catch { return null; }
+            return _dbContext.Posts.ToList();
         }
 
-        public Post GetById(int id)
+        public async Task<Post> GetById(int id)
         {
-            try
-            {
-                return _DbContext.Posts.Find(id);
-            }
-            catch { return null; }
+
+            var result = await _dbContext.Posts.FindAsync(id);
+            return result;
+
         }
 
-        public string Update(Post entity)
+        public async Task<Post> Update(Post entity)
         {
-            try
-            {
-                var rezult = _DbContext.Posts.Find(entity.Id);
-                if (rezult == null)
-                    return "it's null";
-                _DbContext.Entry(rezult).CurrentValues.SetValues(entity);
-                _DbContext.SaveChanges();
-                return "It was update";
-            }
-            catch (Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            var result = await _dbContext.Posts.FindAsync(entity.Id);
+            _dbContext.Entry(result).CurrentValues.SetValues(entity);
+            _dbContext.SaveChanges();
+            return entity;
         }
     }
 }

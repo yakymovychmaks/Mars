@@ -1,6 +1,7 @@
 ﻿using DLL.DataAccess;
 using DLL.Interface;
 using DLL.Model.UserModel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,77 +12,42 @@ namespace DLL.Repository
 {
     public class CommentRepository : IRepository<Comment>
     {
-        private readonly ApplicationDbContext _DbContext;
+        private readonly ApplicationDbContext _dbContext;
         public CommentRepository (ApplicationDbContext context)
         {
-            _DbContext = context;
+            _dbContext = context;
         }
-        public string Add(Comment entity)
+        public async Task Create(Comment entity)
         {
-            try
-            {
-                _DbContext.Comments.Add(entity);
-                _DbContext.SaveChanges();
-                return "Comment was added";
-            }
-            catch (Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            await _dbContext.Comments.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public string Delete(int id)
+        public async Task Delete(Comment entity)
         {
-            try
-            {
-                _DbContext.Comments.Remove(_DbContext.Comments.Find(id));
-                _DbContext.SaveChanges();
-                return "Delete was succesfull";
-            }catch (Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            _dbContext.Comments.Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IEnumerable<Comment> GetAll()
         {
-            try
-            {
-                return _DbContext.Comments.ToList();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            return _dbContext.Comments.ToList();
         }
 
-        public Comment GetById(int id)
+        public async Task<Comment> GetById(int id)
         {
-            try
-            {
-                return _DbContext.Comments.Find(id);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+
+            var result = await _dbContext.Comments.FindAsync(id);
+            return result;
+
         }
 
-        public string Update(Comment entity)
+        public async Task<Comment> Update(Comment entity)
         {
-            try
-            {
-                var rezult = _DbContext.Comments.Find(entity.Id);
-                if (rezult == null)
-                    return "it's null";
-                _DbContext.Entry(rezult).CurrentValues.SetValues(entity);
-                _DbContext.SaveChanges();
-                return "It was update";
-            }
-            catch(Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            var result = await _dbContext.Comments.FindAsync(entity.Id);
+            _dbContext.Entry(result).CurrentValues.SetValues(entity);
+            _dbContext.SaveChanges();
+            return entity;
         }
     }
 }

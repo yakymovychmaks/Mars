@@ -17,5 +17,6 @@ namespace DLL.Model.UserModel
         [ForeignKey("UserId")]
         public int UserId { get; set; }
         public User user { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }

@@ -12,79 +12,37 @@ namespace DLL.Repository
         {
             _dbContext = dbContext;
         }
-        public string Add(User entity)
+        public async Task Create(User entity)
         {
-            try
-            {
-                _dbContext.Users.Add(entity);
-                _dbContext.SaveChanges();
-                return "User was added";
-            }
-            catch (Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            await _dbContext.Users.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public string Delete(int id)
+        public async Task Delete(User entity)
         {
-            try
-            {
-                var removeObj = _dbContext.Users.Find(id);
-                _dbContext.Users.Remove(removeObj);
-                _dbContext.SaveChanges();
-                return "Delete was succesfull";
-            }
-            catch (Exception ex)
-            {
-                return "Exeption on DLL layer" + ex.Message;
-            }
+            _dbContext.Users.Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public IEnumerable<User> GetAll()
         {
-            try
-            {
                 return _dbContext.Users.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Sorry " + ex.Message);
-            }
         }
 
-        public User GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            try
-            {
-                var result = _dbContext.Users.Find(id);
-                if (result == null)
-                    throw new Exception("it's null");
-                return result;
-            }
-            catch(Exception ex) 
-            {
-                throw new Exception("Sorry" + ex.Message);
-            }
+
+            var result = await _dbContext.Users.FindAsync(id);
+            return result;
+
         }
 
-        public string Update(User entity)
+        public async Task<User> Update(User entity)
         {
-            try
-            {
-                var rezult = _dbContext.Users.Find(entity.Id);
-                if (rezult == null)
-                    return "it's null";
-                _dbContext.Entry(rezult).CurrentValues.SetValues(entity);
-                _dbContext.SaveChanges();
-                //_dbContext.Users.Update(entity);
-                //_dbContext.SaveChanges();
-                return "it's update";
-            }
-            catch (Exception ex)
-            {
-                return "Exception on DLL layer" + ex.Message;
-            }
+            var result = await _dbContext.Users.FindAsync(entity.Id);
+            _dbContext.Entry(result).CurrentValues.SetValues(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
         }
     }
 }
