@@ -9,6 +9,7 @@ namespace DLL.Interface
     public interface IRepository<T>
     {
         IQueryable<T> GetAll();
+        Task<T> GetById(int id);
         Task Create(T entity);
         Task Delete(T entity);
         Task<T> Update(T entity);

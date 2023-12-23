@@ -16,6 +16,6 @@ namespace BLL.Interface
 
         Task<BaseResponse<IEnumerable<User>>> GetUsers();
 
-        Task<IBaseResponse<bool>> DeleteUser(long id);
+        Task<IBaseResponse<bool>> DeleteUser(int id);
     }
 }

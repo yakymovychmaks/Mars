@@ -25,7 +25,7 @@ namespace DLL.Repository
 
         public IQueryable<Post> GetAll()
         {
-            return _dbContext.Posts.ToList();
+            return _dbContext.Posts;
         }
 
         public async Task<Post> GetById(int id)

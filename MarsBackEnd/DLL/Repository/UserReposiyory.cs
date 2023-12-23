@@ -31,10 +31,8 @@ namespace DLL.Repository
 
         public async Task<User> GetById(int id)
         {
-
             var result = await _dbContext.Users.FindAsync(id);
             return result;
-
         }
 
         public async Task<User> Update(User entity)

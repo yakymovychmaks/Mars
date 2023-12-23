@@ -37,5 +37,11 @@ namespace DLL.Repository
             await _dbContext.SaveChangesAsync();
             return entity;
         }
+
+        public async Task<Profiles> GetById(int id)
+        {
+            var result = await _dbContext.Profiles.FindAsync(id);
+            return result;
+        }
     }
 }
