@@ -1,6 +1,6 @@
 ﻿using DLL.DataAccess;
 using DLL.Interface;
-using DLL.Model.UserModel;
+using Domain.Entity;
 
 
 namespace DLL.Repository
@@ -24,9 +24,9 @@ namespace DLL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<User> GetAll()
+        public IQueryable<User> GetAll()
         {
-                return _dbContext.Users.ToList();
+                return _dbContext.Users;
         }
 
         public async Task<User> GetById(int id)

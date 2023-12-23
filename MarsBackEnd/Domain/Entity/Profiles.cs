@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Enum;
+using Domain.Entity;
 
-namespace DLL.Model.UserModel
+namespace Domain.Entity
 {
-    public class Profile
+    public class Profiles
     {
         public long Id { get; set; }
 
