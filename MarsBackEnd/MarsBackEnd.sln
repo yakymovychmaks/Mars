@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarsBackEnd", "MarsBackEnd\MarsBackEnd.csproj", "{D2F96687-8E93-4D2B-9C55-E84140DE1416}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A5985630-CA9A-4342-A043-B9B298107BAC} = {A5985630-CA9A-4342-A043-B9B298107BAC}
+		{D80C6BCD-E8A2-4CEF-A6DD-889FF17EAB0E} = {D80C6BCD-E8A2-4CEF-A6DD-889FF17EAB0E}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLL", "DLL\DLL.csproj", "{FE7CC544-93AC-4FC4-9385-D79F47915943}"
@@ -13,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{A5985630-CA9A-4342-A043-B9B298107BAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "User_Service_Test\Tests.csproj", "{B04DBA7F-7BEE-4E0A-B66E-24B61673E034}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{D80C6BCD-E8A2-4CEF-A6DD-889FF17EAB0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +39,10 @@ Global
 		{B04DBA7F-7BEE-4E0A-B66E-24B61673E034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B04DBA7F-7BEE-4E0A-B66E-24B61673E034}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B04DBA7F-7BEE-4E0A-B66E-24B61673E034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D80C6BCD-E8A2-4CEF-A6DD-889FF17EAB0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D80C6BCD-E8A2-4CEF-A6DD-889FF17EAB0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D80C6BCD-E8A2-4CEF-A6DD-889FF17EAB0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D80C6BCD-E8A2-4CEF-A6DD-889FF17EAB0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

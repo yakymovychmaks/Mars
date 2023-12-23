@@ -1,4 +1,4 @@
-﻿using DLL.Model.UserModel;
+﻿using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DLL.DataAccess
@@ -13,7 +13,7 @@ namespace DLL.DataAccess
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Apointment> Apointsments { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<Profiles> Profiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,14 +23,14 @@ namespace DLL.DataAccess
                 .HasForeignKey(p => p.UserId);
 
             modelBuilder.Entity<Apointment>()
-                .HasOne(a => a.user)
+                .HasOne(a => a.profiles)
                 .WithMany(u => u.Apointments)
-                .HasForeignKey(a => a.UserId);
+                .HasForeignKey(a => a.ProfileId);
 
             modelBuilder.Entity<Comment>()
-                .HasOne(c => c.user)
+                .HasOne(c => c.Post)
                 .WithMany(u => u.Comments)
-                .HasForeignKey(c => c.UserId);
+                .HasForeignKey(c => c.PostId);
         }
     }
 }

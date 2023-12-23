@@ -1,10 +1,10 @@
 ﻿using DLL.DataAccess;
 using DLL.Interface;
-using DLL.Model.UserModel;
+using Domain.Entity;
 
 namespace DLL.Repository
 {
-    public class ProfileRepository : IRepository<Profile>
+    public class ProfileRepository : IRepository<Profiles>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -13,24 +13,24 @@ namespace DLL.Repository
             _dbContext = dbContext;
         }
 
-        public async Task Create(Profile entity)
+        public async Task Create(Profiles entity)
         {
             await _dbContext.Profiles.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<Profile> GetAll()
+        public IQueryable<Profiles> GetAll()
         {
             return _dbContext.Profiles;
         }
 
-        public async Task Delete(Profile entity)
+        public async Task Delete(Profiles entity)
         {
             _dbContext.Profiles.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Profile> Update(Profile entity)
+        public async Task<Profiles> Update(Profiles entity)
         {
             var result = await _dbContext.Profiles.FindAsync(entity.Id);
             _dbContext.Entry(result).CurrentValues.SetValues(entity);

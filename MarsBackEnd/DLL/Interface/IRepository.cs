@@ -8,7 +8,7 @@ namespace DLL.Interface
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> GetAll();
+        IQueryable<T> GetAll();
         Task Create(T entity);
         Task Delete(T entity);
         Task<T> Update(T entity);

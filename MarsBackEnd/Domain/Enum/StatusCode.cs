@@ -1,5 +1,5 @@
 ﻿
-namespace DLL.Model.Enum
+namespace Domain.Enum
 {
     public enum StatusCode
     {

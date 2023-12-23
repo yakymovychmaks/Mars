@@ -1,13 +1,6 @@
 ﻿using DLL.DataAccess;
 using DLL.Interface;
-using DLL.Model.UserModel;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Entity;
 
 namespace DLL.Repository
 {
@@ -30,7 +23,7 @@ namespace DLL.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<Post> GetAll()
+        public IQueryable<Post> GetAll()
         {
             return _dbContext.Posts.ToList();
         }

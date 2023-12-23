@@ -1,82 +1,64 @@
-﻿using AutoMapper;
-using BLL.Interface;
-using BLL.ModelDTOs.UserDTOs;
-using DLL.Model.UserModel;
-using DLL.Repository;
+﻿using BLL.Interface;
+using DLL.Interface;
+using Domain.Entity;
+using Domain.Enum;
+using Domain.Helpers;
+using Domain.Response;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BLL.Services
 {
-    public class UserService : IService<UserDTO>
+    public class UserService : IUserService
     {
-        private UserReposiyory _userRepository;
-        private IMapper _mapper;
-        public UserService(UserReposiyory userReposiyory, IMapper mapper)
+        private readonly ILogger<UserService> _loger;
+        private readonly IRepository<Profiles> _profilesRepository;
+        private readonly IRepository<User> _userRepository;
+        public UserService(ILogger<UserService> loger, IRepository<Profiles> profilesRepository, IRepository<User> userRepository)
         {
-            _userRepository = userReposiyory;
-            _mapper = mapper;
-        }
-        public string Add(UserDTO entity)
-        {
-            try
-            {
-                if(entity == null)
-                    return "can't be null";
-                return _userRepository.Add(_mapper.Map<User>(entity));
-            }
-            catch (Exception ex)
-            {
-                return "Exception on BLL layer "+ ex.Message;
-            }
+            _loger = loger;
+            _profilesRepository = profilesRepository;
+            _userRepository = userRepository;
         }
 
-        public string Delete(int id)
+        public async Task<IBaseResponse<User>> Create(User model)
         {
             try
             {
-                if (id == null)
-                    return "can't be null";
-                return _userRepository.Delete(id);
-            }
-            catch (Exception ex)
-            {
-                return "Exception on BLL layer " + ex.Message;
-            }
+                var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Name == model.Name);
+                if (user != null)
+                {
+                    return new BaseResponse<User>()
+                    {
+                        Description = "Користувач такий вже існує",
+                        StatusCode = StatusCode.UserAlreadyExists
+                    };
+                }
+                user = new User()
+                {
+                    Name = model.Name,
+                    Role = model.Role,
+                    Password = HashPasswordHelper.HashPassowrd(model.Password),
+                    Profile = model.Profile,
+                    Posts = new List<Post>()
+                };
+                await _userRepository.Create(user);
+            }    
         }
 
-        public IEnumerable<UserDTO> GetAll()
+        public Task<IBaseResponse<bool>> DeleteUser(long id)
         {
-            try
-            {
-                return _mapper.Map<IEnumerable<UserDTO>>(_userRepository.GetAll());
-            }
-            catch { return Enumerable.Empty<UserDTO>(); }
+            throw new NotImplementedException();
         }
 
-        public UserDTO GetById(int id)
+        public BaseResponse<Dictionary<int, string>> GetRoles()
         {
-            try
-            {
-                return _mapper.Map<UserDTO>(_userRepository.GetById(id));
-            }
-            catch (Exception ex)
-            {
-                return new UserDTO();
-            }
+            throw new NotImplementedException();
         }
 
-        public string Update(UserDTO entity)
+        public Task<BaseResponse<IEnumerable<User>>> GetUsers()
         {
-            try
-            {
-                if (entity == null)
-                    return "can't be null";
-                _userRepository.Update(_mapper.Map<User>(entity));
-                return "Okey";
-            }
-            catch (Exception ex)
-            {
-                return "Exception on BLL layer " + ex.Message;
-            }
+            throw new NotImplementedException();
         }
     }
 }

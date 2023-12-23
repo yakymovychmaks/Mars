@@ -41,30 +41,30 @@ namespace User_Service_Test.DLLTests
             };
             _ApointmentReporitory = new ApointmentRepository(new ApplicationDbContext(options));
         }
-        [Test,Order(1)]
+        [Test, Order(1)]
         public void Add_ValidApointment_AddApointmentAndReturnSuccessMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _ApointmentReporitory.Add(apointment);
                 dbContext.SaveChanges();
-                Assert.AreEqual("Apointment was added", result); 
+                Assert.AreEqual("Apointment was added", result);
             }
         }
-        [Test,Order(2)]
+        [Test, Order(2)]
         public void GetBuId_ValidApointment_GetBuIdApointmentAndRetusrnSuccessMessage()
         {
-            using( var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 var result = _ApointmentReporitory.GetById(apointment.Id);
                 dbContext.SaveChanges();
                 Assert.AreEqual(apointment.ToString(), result.ToString());
             }
         }
-        [Test,Order(3)]
+        [Test, Order(3)]
         public void Update_ValidApointment_UpdateApointmentAndReturnSuccessMessage()
         {
-            using(var dbContext = new ApplicationDbContext(options))
+            using (var dbContext = new ApplicationDbContext(options))
             {
                 apointment.Title = "new title";
                 var result = _ApointmentReporitory.Update(apointment);

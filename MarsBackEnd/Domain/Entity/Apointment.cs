@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.Enum;
+using Domain.Entity;
 
-
-namespace DLL.Model.UserModel
+namespace Domain.Entity
 {
     public class Apointment
     {
@@ -11,6 +9,7 @@ namespace DLL.Model.UserModel
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime time { get; set; }
-        public User user { get; set; }
+        public int ProfileId { get; set; }
+        public Profiles profiles { get; set; }
     }
 }
