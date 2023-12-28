@@ -1,19 +1,21 @@
 ﻿using Domain.Enum;
 using Domain.Entity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entity
 {
-    public class Profiles
+    public class Profile
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public byte Age { get; set; }
 
         public string Address { get; set; }
 
-        public long UserId { get; set; }
+        [ForeignKey("UserId")]
 
-        public User User { get; set; }
+        public int? UserId { get; set; }
+        //public User? User { get; set; }
         public List<Apointment>? Apointments { get; set; }
     }
 }

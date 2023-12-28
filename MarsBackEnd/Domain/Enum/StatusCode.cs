@@ -6,7 +6,7 @@ namespace Domain.Enum
         UserNotFound = 0,
         UserAlreadyExists = 1,
 
-        CarNotFound = 10,
+        //CarNotFound = 10,
 
         OrderNotFound = 20,
 

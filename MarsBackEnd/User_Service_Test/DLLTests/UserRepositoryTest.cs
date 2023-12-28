@@ -11,7 +11,7 @@ namespace User_Service_Test.DLLTests
     public class UserRepositoryTest
     {
         public DbContextOptions<ApplicationDbContext> options;
-        public UserReposiyory _UserRepository;
+        public UserRepository _UserRepository;
         public User user;
 
         [SetUp]
@@ -32,7 +32,7 @@ namespace User_Service_Test.DLLTests
             options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
                 .Options;
-            _UserRepository = new UserReposiyory(new ApplicationDbContext(options));
+            _UserRepository = new UserRepository(new ApplicationDbContext(options));
         }
         [Test, Order(1)]
         public void Add_ValidUser_AddUserAndReturnSuccessMessage()

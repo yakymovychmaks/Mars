@@ -1,6 +1,8 @@
 ﻿using BLL.Services;
 using Domain.Entity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace MarsBackEnd.Controllers
 {
@@ -16,19 +18,17 @@ namespace MarsBackEnd.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            try
-            {
-                var response = _userService.GetUsers();
 
-                var jsonResult = new JsonResult(response);
-                jsonResult.StatusCode = 200;
+            var response = _userService.GetUsers();
 
-                return jsonResult;
-            }
-            catch (Exception ex)
+            if (response.Result.StatusCode != Domain.Enum.StatusCode.OK)
             {
-                return new JsonResult(ex.Message);
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
             }
+
+            var jsonResult = new JsonResult(response.Result.Data);
+
+            return Ok(jsonResult);
 
         }
         //[HttpGet("{id}")]
@@ -39,20 +39,39 @@ namespace MarsBackEnd.Controllers
         [HttpPost]
         public IActionResult AddUser([FromBody] User userAPI)
         {
-            try
-            {
-                var response = _userService.Create(userAPI);
 
-                var jsonResult = new JsonResult(response);
-                jsonResult.StatusCode = 200;
+            var response = _userService.Create(userAPI);
 
-                return jsonResult;
-            }
-            catch (Exception ex)
+            if (response.Result.StatusCode != Domain.Enum.StatusCode.OK)
             {
-                return new JsonResult(ex.Message);
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
             }
+
+
+            var jsonResult = new JsonResult(response.Result.Data);
+
+            return Ok(jsonResult);
+
         }
+
+        //      {
+        //"Password": "YourPasswordHere",
+        //"Name": "John Doe",
+        //"Role": 1,
+        //"ProfileId": 1,
+        //"Profile": {
+        //  "Age": 25,
+        //  "Address": "123 Main St",
+        //  "UserId": 1
+        //},
+        //"Posts": [
+
+
+        //]
+        //  }
+
+
+
         //[HttpPut]
         //public IActionResult UpdateUser([FromBody] User userAPI)
         //{
@@ -61,20 +80,18 @@ namespace MarsBackEnd.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteUserById(int id)
         {
-            try
-            {
-                var response = _userService.DeleteUser(id);
 
-                var jsonResult = new JsonResult(response);
-                jsonResult.StatusCode = 200;
+            var response = _userService.DeleteUser(id);
 
-                return jsonResult;
-            }
-            catch (Exception ex)
+            if (response.Result.StatusCode != Domain.Enum.StatusCode.OK)
             {
-                return new JsonResult(ex.Message);
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
             }
+            var jsonResult = new JsonResult(response.Result.Data);
+
+            return Ok(jsonResult);
         }
 
     }
+
 }

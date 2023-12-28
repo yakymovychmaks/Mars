@@ -13,9 +13,9 @@ namespace BLL.Services
     public class UserService : IUserService
     {
         private readonly ILogger<UserService> _logger;
-        private readonly IRepository<Profiles> _profilesRepository;
+        private readonly IRepository<Profile> _profilesRepository;
         private readonly IRepository<User> _userRepository;
-        public UserService(ILogger<UserService> logger, IRepository<Profiles> profilesRepository, IRepository<User> userRepository)
+        public UserService(ILogger<UserService> logger, IRepository<Profile> profilesRepository, IRepository<User> userRepository)
         {
             _logger = logger;
             _profilesRepository = profilesRepository;
@@ -40,11 +40,11 @@ namespace BLL.Services
                     Name = model.Name,
                     Role = model.Role,
                     Password = HashPasswordHelper.HashPassowrd(model.Password),
-                    Profile = model.Profile,
+                    //Profile = model.Profile,
                     Posts = new List<Post>()
                 };
                 await _userRepository.Create(user);
-                await _profilesRepository.Create(model.Profile);
+                //await _profilesRepository.Create(model.Profile);
                 return new BaseResponse<User>()
                 {
                     Data = user,
