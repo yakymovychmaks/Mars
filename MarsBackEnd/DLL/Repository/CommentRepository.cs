@@ -25,7 +25,8 @@ namespace DLL.Repository
 
         public IQueryable<Comment> GetAll()
         {
-            return _dbContext.Comments.ToList();
+            //return _dbContext.Comments.ToList();
+            return null;
         }
 
         public async Task<Comment> GetById(int id)

@@ -1,10 +1,9 @@
-using BLL.Mapping;
 using BLL.Services;
 using DLL.DataAccess;
+using DLL.Interface;
 using DLL.Repository;
+using Domain.Entity;
 using FluentAssertions.Common;
-using MarsBackEnd.APIServices;
-using MarsBackEnd.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -21,20 +20,21 @@ namespace MarsBackEnd
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"));
 
-            builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(MappingConfigs));
-
             #region Post DI
             builder.Services.AddScoped<PostRepository>();
-            builder.Services.AddTransient<PostService>();
-            builder.Services.AddTransient<PostAPIService>();
+            //builder.Services.AddTransient<PostService>();
             #endregion
 
-            builder.Services.AddScoped<UserReposiyory>();
-            builder.Services.AddTransient<APIServices.UserAPIService>();
+            builder.Services.AddScoped<UserRepository>();
+            builder.Services.AddScoped<IRepository<Profile>, ProfileRepository>();
+            builder.Services.AddScoped<IRepository<User>, UserRepository>();
+            builder.Services.AddScoped<IRepository<Apointment>, ApointmentRepository>();
+            builder.Services.AddScoped<IRepository<Comment>, CommentRepository>();
             builder.Services.AddTransient<UserService>();
 
 
             builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
 
 
 
