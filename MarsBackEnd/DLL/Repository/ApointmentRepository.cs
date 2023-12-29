@@ -25,7 +25,7 @@ namespace DLL.Repository
 
         public IQueryable<Apointment> GetAll()
         {
-            return _dbContext.Apointsments.ToList();
+            return _dbContext.Apointsments;
         }
 
         public async Task<Apointment> GetById(int id)
