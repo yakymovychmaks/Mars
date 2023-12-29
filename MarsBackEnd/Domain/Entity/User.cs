@@ -11,11 +11,7 @@ namespace Domain.Entity
         public string Password { get; set; }
         public string Name { get; set; }
         public Role Role { get; set; }
-
-        [ForeignKey("ProfileId")]
-
-        public int ProfileId { get; set; }
-        //public Profile Profile { get; set; }
-        public List<Post>? Posts { get; set; }
+        public Profile Profile { get; set; }
+        public List<Post> Posts { get; set; }
     }
 }

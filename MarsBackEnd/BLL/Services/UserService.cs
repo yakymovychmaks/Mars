@@ -40,11 +40,10 @@ namespace BLL.Services
                     Name = model.Name,
                     Role = model.Role,
                     Password = HashPasswordHelper.HashPassowrd(model.Password),
-                    //Profile = model.Profile,
+                    Profile = model.Profile,
                     Posts = new List<Post>()
                 };
                 await _userRepository.Create(user);
-                //await _profilesRepository.Create(model.Profile);
                 return new BaseResponse<User>()
                 {
                     Data = user,
@@ -54,7 +53,7 @@ namespace BLL.Services
             }    
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"[UserService.Create] error: {ex.Message}");
+                _logger.LogError(ex, $"[UserService.Create] error: {ex.InnerException}");
                 return new BaseResponse<User>()
                 {
                     StatusCode = StatusCode.InternalServerError,
