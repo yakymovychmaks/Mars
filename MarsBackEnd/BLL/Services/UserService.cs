@@ -7,6 +7,7 @@ using Domain.Helpers;
 using Domain.Response;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace BLL.Services
 {
@@ -57,7 +58,7 @@ namespace BLL.Services
                 return new BaseResponse<User>()
                 {
                     StatusCode = StatusCode.InternalServerError,
-                    Description = $"Внутрішня помилка: {ex.Message}"
+                    Description = $"Внутрішня помилка: {ex.InnerException}"
                 };
             }
         }
@@ -145,5 +146,86 @@ namespace BLL.Services
                 };
             }
         }
+        public async Task<BaseResponse<ClaimsIdentity>> Login(string LoginsUser, string password)
+        {
+            try
+            {
+                var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Name == LoginsUser);
+                if (user == null)
+                {
+                    return new BaseResponse<ClaimsIdentity>()
+                    {
+                        StatusCode = StatusCode.UserNotFound,
+                        Description = "Невірне ім'я користувача"
+                    };
+                }
+                if (user.Password != password)
+                {
+                    return new BaseResponse<ClaimsIdentity>()
+                    {
+                        StatusCode = StatusCode.UserNotFound,
+                        Description = "Невірний пароль користувача"
+                    };
+                }
+                var rezult = Authenticate(user);
+                return new BaseResponse<ClaimsIdentity>()
+                {
+                    Data = rezult,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, $"[Login]: {ex.Message}");
+                return new BaseResponse<ClaimsIdentity>()
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+        public async Task<BaseResponse<bool>> ChangePassword(string LoginsUser, string Password)
+        {
+            try
+            {
+                var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Name == LoginsUser);
+                if(user == null)
+                {
+                    return new BaseResponse<bool>()
+                    {
+                        StatusCode = StatusCode.UserNotFound,
+                        Description = "Невірне ім'я користувача"
+                    };
+                }
+                user.Password = HashPasswordHelper.HashPassowrd(Password);
+                await _userRepository.Update(user);
+
+                return new BaseResponse<bool>()
+                {
+                    Data = true,
+                    StatusCode = StatusCode.OK,
+                    Description = "Пароль оновленно"
+                };
+            }catch(Exception ex)
+            {
+                _logger.LogError(ex, $"[ChangePassword]: {ex.Message}");
+                return new BaseResponse<bool>()
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+        private ClaimsIdentity Authenticate(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
+            };
+            return new ClaimsIdentity(claims, "ApplicationCookie",
+                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+        }
     }
 }
+    

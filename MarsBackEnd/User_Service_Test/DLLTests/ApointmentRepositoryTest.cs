@@ -12,7 +12,6 @@ namespace User_Service_Test.DLLTests
     {
         DbContextOptions<ApplicationDbContext> options;
         ApointmentRepository _ApointmentReporitory;
-        Apointment apointment;
         [SetUp]
         public void SetUp()
         {
