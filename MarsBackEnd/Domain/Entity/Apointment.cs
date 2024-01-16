@@ -10,6 +10,6 @@ namespace Domain.Entity
         public string Description { get; set; }
         public DateTime time { get; set; }
         public int ProfileId { get; set; }
-        public Profiles profiles { get; set; }
+        public Profile profiles { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using Domain.Entity;
 
 namespace DLL.Repository
 {
-    public class ProfileRepository : IRepository<Profiles>
+    public class ProfileRepository : IRepository<Profile>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -13,24 +13,24 @@ namespace DLL.Repository
             _dbContext = dbContext;
         }
 
-        public async Task Create(Profiles entity)
+        public async Task Create(Profile entity)
         {
             await _dbContext.Profiles.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public IQueryable<Profiles> GetAll()
+        public IQueryable<Profile> GetAll()
         {
             return _dbContext.Profiles;
         }
 
-        public async Task Delete(Profiles entity)
+        public async Task Delete(Profile entity)
         {
             _dbContext.Profiles.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Profiles> Update(Profiles entity)
+        public async Task<Profile> Update(Profile entity)
         {
             var result = await _dbContext.Profiles.FindAsync(entity.Id);
             _dbContext.Entry(result).CurrentValues.SetValues(entity);
@@ -38,7 +38,7 @@ namespace DLL.Repository
             return entity;
         }
 
-        public async Task<Profiles> GetById(int id)
+        public async Task<Profile> GetById(int id)
         {
             var result = await _dbContext.Profiles.FindAsync(id);
             return result;

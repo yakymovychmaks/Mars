@@ -5,10 +5,10 @@ using Domain.Entity;
 
 namespace DLL.Repository
 {
-    public class UserReposiyory : IRepository<User>
+    public class UserRepository : IRepository<User>
     {
         private readonly ApplicationDbContext _dbContext;
-        public UserReposiyory(ApplicationDbContext dbContext)
+        public UserRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
