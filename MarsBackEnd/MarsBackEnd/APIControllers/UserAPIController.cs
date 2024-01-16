@@ -31,11 +31,15 @@ namespace MarsBackEnd.Controllers
             return Ok(jsonResult);
 
         }
+
+
         //[HttpGet("{id}")]
         //public IActionResult Get(int id)
         //{
         //    return Ok(_userService.GetUserByIdJson(id));
         //}
+
+
         [HttpPost]
         public IActionResult AddUser([FromBody] User userAPI)
         {
