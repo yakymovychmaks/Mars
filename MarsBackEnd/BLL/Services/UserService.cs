@@ -8,6 +8,7 @@ using Domain.Response;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using BLL.Tokens;
 
 namespace BLL.Services
 {
@@ -151,27 +152,45 @@ namespace BLL.Services
             try
             {
                 var user = await _userRepository.GetAll().FirstOrDefaultAsync(x => x.Name == LoginsUser);
-                if (user == null)
+                if (user == null || user.Password != HashPasswordHelper.HashPassowrd(password))
                 {
                     return new BaseResponse<ClaimsIdentity>()
                     {
                         StatusCode = StatusCode.UserNotFound,
-                        Description = "Невірне ім'я користувача"
+                        Description = "Невірне ім'я користувача або пароль"
                     };
                 }
-                if (user.Password != password)
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
+            new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString())
+        };
+
+                // Додайте інші клейми за потребою
+
+                var expires = DateTime.UtcNow.AddHours(1); // Термін дії токену
+
+                // Створіть екземпляр JwtTokenGenerator з вашим секретним ключем
+                var tokenGenerator = new GeneratToken("rDlKRe6D+KqUc0kI7eIzVQKZ5mV0WthH6+SWRftLFno=");
+
+                // Використовуйте JwtTokenGenerator для генерації токену
+                var token = tokenGenerator.GenerateToken(claims, expires);
+
+                var response = new
                 {
-                    return new BaseResponse<ClaimsIdentity>()
-                    {
-                        StatusCode = StatusCode.UserNotFound,
-                        Description = "Невірний пароль користувача"
-                    };
-                }
-                var rezult = Authenticate(user);
+                    Data = new ClaimsIdentity(claims, "ApplicationCookie",
+                        ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType),
+                    StatusCode = StatusCode.OK,
+                    Description = "Успішний вхід",
+                    TemporaryToken = token
+                };
+
                 return new BaseResponse<ClaimsIdentity>()
                 {
-                    Data = rezult,
-                    StatusCode = StatusCode.OK
+                    Data = response.Data,
+                    StatusCode = StatusCode.OK,
+                    Description = response.TemporaryToken
+
                 };
             }
             catch(Exception ex)

@@ -1,5 +1,6 @@
 ﻿using BLL.Services;
 using Domain.Entity;
+using Domain.LoginModels;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json;
@@ -56,6 +57,17 @@ namespace MarsBackEnd.Controllers
 
             return Ok(jsonResult);
 
+        }
+        [HttpPost("login")]
+        public IActionResult LoginUser([FromBody] LoginModel loginModel)
+        {
+            var response = _userService.Login(loginModel.Name, loginModel.Password);
+            if (response.Result.StatusCode != Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
+            }
+            //var jsonRezult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(/*jsonRezult +*/ response.Result.Description);
         }
 
 //{
