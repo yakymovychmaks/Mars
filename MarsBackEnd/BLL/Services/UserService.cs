@@ -167,11 +167,11 @@ namespace BLL.Services
         };
 
                 // Додайте інші клейми за потребою
-
+                GenerarorKeyTokenHelper generatorKeys = new GenerarorKeyTokenHelper();
                 var expires = DateTime.UtcNow.AddHours(1); // Термін дії токену
 
                 // Створіть екземпляр JwtTokenGenerator з вашим секретним ключем
-                var tokenGenerator = new GeneratToken("rDlKRe6D+KqUc0kI7eIzVQKZ5mV0WthH6+SWRftLFno=");
+                var tokenGenerator = new GeneratToken(generatorKeys.GenerateRandomSymmetricKey());
 
                 // Використовуйте JwtTokenGenerator для генерації токену
                 var token = tokenGenerator.GenerateToken(claims, expires);
