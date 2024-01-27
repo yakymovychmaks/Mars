@@ -159,9 +159,49 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<Post>> Update(Post post)
+        public async Task<IBaseResponse<Post>> Update(Post post, User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(user.Role == Role.Admin)
+                {
+                    var updatePost = await _postRepository.GetById(post.Id);
+                    if (updatePost != null)
+                    {
+                        updatePost.title = post.title;
+                        updatePost.Description = post.Description;
+                        await _postRepository.Update(updatePost);
+                    }
+                    else
+                    {
+                        return new BaseResponse<Post>()
+                        {
+                            Data = null,
+                            Description = "такого посту не існує",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<Post>
+                    {
+                        Data = null,
+                        Description = "Упс",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService.Update] error: {ex.InnerException}");
+                return new BaseResponse<Post>
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
     }
 }
