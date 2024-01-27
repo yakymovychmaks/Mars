@@ -103,9 +103,28 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<Post>> GetPost(int id)
+        public async Task<IBaseResponse<Post>> GetPost(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var rezult = await _postRepository.GetById(id);
+                return new BaseResponse<Post>()
+                {
+                    Data = rezult,
+                    Description = "Ось пост",
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PoserService GetPost] error: {ex.InnerException}");
+                return new BaseResponse<Post>()
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<IBaseResponse<IEnumerable<Post>>> GetAll(int userId)
