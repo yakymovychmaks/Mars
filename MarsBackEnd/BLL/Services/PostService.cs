@@ -6,10 +6,11 @@ using Microsoft.Extensions.Logging;
 using Domain;
 using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BLL.Services
 {
-    internal class PostService : IPostService
+    public class PostService : IPostService
     {
 
         private readonly IRepository<Post> _postRepository;
@@ -128,7 +129,7 @@ namespace BLL.Services
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Post>>> GetAll(int userId)
+        public async Task<IBaseResponse<IEnumerable<Post>>> GetAll(ClaimsPrincipal user)
         {
             try
             {

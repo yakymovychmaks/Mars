@@ -3,6 +3,7 @@ using Domain.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,6 @@ namespace BLL.Interface
 
         Task<IBaseResponse<Post>> GetPost(int id);
 
-        Task<IBaseResponse<IEnumerable<Post>>> GetAll(int userId);
+        Task<IBaseResponse<IEnumerable<Post>>> GetAll(ClaimsPrincipal user);
     }
 }
