@@ -12,9 +12,9 @@ namespace BLL.Interface
     {
 
         Task<IBaseResponse<Post>> Create(Post post, User user);
-        Task<IBaseResponse<Post>> Update(Post post);
+        Task<IBaseResponse<Post>> Update(Post post, User user);
 
-        Task<IBaseResponse<bool>> Delete(int id);
+        Task<IBaseResponse<bool>> Delete(int id, User user);
 
         Task<IBaseResponse<Post>> GetPost(int id);
 

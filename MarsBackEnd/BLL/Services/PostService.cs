@@ -59,9 +59,48 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<bool>> Delete(int id)
+        public async Task<IBaseResponse<bool>> Delete(int id, User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (user.Role == Role.Admin)
+                {
+                    Post rezult = await _postRepository.GetById(id);
+                    if (rezult != null)
+                    {
+                        await _postRepository.Delete(rezult);
+                        return new BaseResponse<bool>()
+                        {
+                            Data = true,
+                            Description = "Ви видалили цей пост",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                    else
+                        return new BaseResponse<bool>()
+                        {
+                            Data = false,
+                            Description = "Такого посту не існує",
+                            StatusCode = StatusCode.InternalServerError
+                        };
+                }
+                else return new BaseResponse<bool>()
+                {
+                    Data = false,
+                    Description = "Упс щось пішло не так",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService Delete] error: {ex.InnerException}");
+                return new BaseResponse<bool>()
+                {
+                    Data = false,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<IBaseResponse<Post>> GetPost(int id)
