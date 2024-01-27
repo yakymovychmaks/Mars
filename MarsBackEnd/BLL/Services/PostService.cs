@@ -5,6 +5,7 @@ using Domain.Response;
 using Microsoft.Extensions.Logging;
 using Domain;
 using Domain.Enum;
+using Microsoft.EntityFrameworkCore;
 
 namespace BLL.Services
 {
@@ -127,9 +128,35 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<IEnumerable<Post>>> GetAll(int userId)
+        public async Task<IBaseResponse<IEnumerable<Post>>> GetAll(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var posts = await _postRepository.GetAll()
+                    .Select(x => new Post()
+                    {
+                        Id = x.Id,
+                        title = x.title,
+                        Description = x.Description
+                    })
+                    .ToListAsync();
+                _postLogger.LogInformation($"[PostService.GetAll] отримано елементів {posts.Count}");
+                return new BaseResponse<IEnumerable<Post>>()
+                {
+                    Data = posts,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService.GetAll] error: {ex.InnerException}");
+                return new BaseResponse<IEnumerable<Post>>
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<IBaseResponse<Post>> Update(Post post)
