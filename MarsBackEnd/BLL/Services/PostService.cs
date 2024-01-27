@@ -3,11 +3,8 @@ using DLL.Interface;
 using Domain.Entity;
 using Domain.Response;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain;
+using Domain.Enum;
 
 namespace BLL.Services
 {
@@ -21,9 +18,45 @@ namespace BLL.Services
             _postRepository = postRepository;
             _postLogger = postLogger;
         }
-        public Task<IBaseResponse<Post>> Create(Post post)
+        public async Task<IBaseResponse<Post>> Create(Post post, User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (user.Role == Role.Admin)
+                {
+                    await _postRepository.Create(post);
+                    return new BaseResponse<Post>()
+                    {
+                        Data = post,
+                        Description = "Пост успішно створено",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+                else if (user.Role != Role.Admin)
+                    return new BaseResponse<Post>()
+                    {
+                        Data = null,
+                        Description = "Ви не володієте достатнім рівнем доступу",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+                else
+                    return new BaseResponse<Post>()
+                    {
+                        Data = null,
+                        Description = "Упс щось не так",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService.Create] error: {ex.InnerException}");
+                return new BaseResponse<Post>()
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<IBaseResponse<bool>> Delete(int id)

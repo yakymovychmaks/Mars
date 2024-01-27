@@ -11,7 +11,7 @@ namespace BLL.Interface
     internal interface IPostService
     {
 
-        Task<IBaseResponse<Post>> Create(Post post);
+        Task<IBaseResponse<Post>> Create(Post post, User user);
         Task<IBaseResponse<Post>> Update(Post post);
 
         Task<IBaseResponse<bool>> Delete(int id);
