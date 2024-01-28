@@ -20,11 +20,11 @@ namespace BLL.Services
             _postRepository = postRepository;
             _postLogger = postLogger;
         }
-        public async Task<IBaseResponse<Post>> Create(Post post, User user)
+        public async Task<IBaseResponse<Post>> Create(Post post, ClaimsPrincipal user)
         {
             try
             {
-                if (user.Role == Role.Admin)
+                if (user.IsInRole("Admin"))
                 {
                     await _postRepository.Create(post);
                     return new BaseResponse<Post>()
@@ -34,7 +34,7 @@ namespace BLL.Services
                         StatusCode = StatusCode.OK
                     };
                 }
-                else if (user.Role != Role.Admin)
+                else if (user.IsInRole("User"))
                     return new BaseResponse<Post>()
                     {
                         Data = null,
@@ -61,11 +61,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<IBaseResponse<bool>> Delete(int id, User user)
+        public async Task<IBaseResponse<bool>> Delete(int id, ClaimsPrincipal user)
         {
             try
             {
-                if (user.Role == Role.Admin)
+                if (user.IsInRole("Admin"))
                 {
                     Post rezult = await _postRepository.GetById(id);
                     if (rezult != null)
@@ -129,7 +129,7 @@ namespace BLL.Services
             }
         }
 
-        public async Task<IBaseResponse<IEnumerable<Post>>> GetAll(ClaimsPrincipal user)
+        public async Task<IBaseResponse<IEnumerable<Post>>> GetAll()
         {
             try
             {
@@ -160,11 +160,11 @@ namespace BLL.Services
             }
         }
 
-        public async Task<IBaseResponse<Post>> Update(Post post, User user)
+        public async Task<IBaseResponse<Post>> Update(Post post, ClaimsPrincipal user)
         {
             try
             {
-                if(user.Role == Role.Admin)
+                if(user.IsInRole("Admin"))
                 {
                     var updatePost = await _postRepository.GetById(post.Id);
                     if (updatePost != null)
@@ -172,6 +172,12 @@ namespace BLL.Services
                         updatePost.title = post.title;
                         updatePost.Description = post.Description;
                         await _postRepository.Update(updatePost);
+                        return new BaseResponse<Post>()
+                        {
+                            Data = updatePost,
+                            Description = "пост успішно оноаленно",
+                            StatusCode = StatusCode.OK
+                        };
                     }
                     else
                     {

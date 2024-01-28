@@ -12,13 +12,13 @@ namespace BLL.Interface
     internal interface IPostService
     {
 
-        Task<IBaseResponse<Post>> Create(Post post, User user);
-        Task<IBaseResponse<Post>> Update(Post post, User user);
+        Task<IBaseResponse<Post>> Create(Post post, ClaimsPrincipal user);
+        Task<IBaseResponse<Post>> Update(Post post, ClaimsPrincipal user);
 
-        Task<IBaseResponse<bool>> Delete(int id, User user);
+        Task<IBaseResponse<bool>> Delete(int id, ClaimsPrincipal user);
 
         Task<IBaseResponse<Post>> GetPost(int id);
 
-        Task<IBaseResponse<IEnumerable<Post>>> GetAll(ClaimsPrincipal user);
+        Task<IBaseResponse<IEnumerable<Post>>> GetAll();
     }
 }
