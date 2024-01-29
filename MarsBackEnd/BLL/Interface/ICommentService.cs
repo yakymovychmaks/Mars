@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface
 {
-    internal interface ICommentService
+    public interface ICommentService
     {
         Task<IBaseResponse<Comment>> Create(Comment comment, ClaimsPrincipal claimsPrincipal);
 

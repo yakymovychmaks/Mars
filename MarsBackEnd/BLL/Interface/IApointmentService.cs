@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface
 {
-    internal interface IApointmentService
+    public interface IApointmentService
     {
+        pu
     }
 }

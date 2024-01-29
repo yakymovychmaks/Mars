@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface
 {
-    internal interface IPostService
+    public interface IPostService
     {
 
         Task<IBaseResponse<Post>> Create(Post post, ClaimsPrincipal user);
