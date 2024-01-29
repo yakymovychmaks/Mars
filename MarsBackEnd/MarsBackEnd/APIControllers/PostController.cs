@@ -1,4 +1,5 @@
 ﻿using BLL.Services;
+using Domain.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -19,28 +20,52 @@ namespace MarsBackEnd.Controllers
         [Authorize]
         public IActionResult GetAllPosts()
         {
-            // Отримати ClaimsPrincipal, який містить інформацію про поточного користувача
-            var claimsPrincipal = User as ClaimsPrincipal;
-
-            // Передати claimsPrincipal в _postService або використовуйте його за потреби
-            var result = _postService.GetAll(claimsPrincipal);
+            var result = _postService.GetAll();
             return Ok(JsonConvert.SerializeObject(result));
             
         }
         [HttpGet("{id}")]
         public IActionResult GetPostById(int id)
         {
-            return Ok(_postAPIService.GetPostByIdAsJson(id));
+            var response = _postService.GetPost(id);
+            if (response.Result.StatusCode != Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
+            }
+            var jsonResult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(jsonResult);
         }
         [HttpPost]
-        public IActionResult AddPost([FromBody] PostsAPIModel postsAPIModel)
+        [Authorize]
+        public IActionResult AddPost([FromBody] Post postModel)
         {
-            return Ok(_postAPIService.AddPsot(postsAPIModel));
+            // Отримати ClaimsPrincipal, який містить інформацію про поточного користувача
+            var claimsPrincipal = User as ClaimsPrincipal;
+
+            // Передати claimsPrincipal в _postService або використовуйте його за потреби
+            var response = _postService.Create(postModel,claimsPrincipal);
+            if(response.Result.StatusCode != Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
+            }
+            var jsonResult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(jsonResult);
         }
         [HttpDelete]
-        public IActionResult DeletePostById([FromBody] PostsAPIModel postsAPIModel)
+        [Authorize]
+        public IActionResult DeletePostById([FromBody] Post postModel)
         {
-            return Ok(_postAPIService.DeletePsot(postsAPIModel));
+            // Отримати ClaimsPrincipal, який містить інформацію про поточного користувача
+            var claimsPrincipal = User as ClaimsPrincipal;
+
+            // Передати claimsPrincipal в _postService або використовуйте його за потреби
+            var response = _postService.Delete(postModel.Id, claimsPrincipal);
+            if(response.Result.StatusCode != Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode,response.Result.Description);
+            }
+            var jsonResult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(jsonResult);
         }
     }
 }
