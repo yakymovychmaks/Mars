@@ -131,14 +131,42 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<Apointment>> GetApointment(int id, ClaimsPrincipal claimsPrincipal)
+        public async Task<IBaseResponse<Apointment>> GetApointment(int id, ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _apointmentRepository.GetById(id);
+                if(result.user.Name == claimsPrincipal.Identity?.Name)
+                {
+                    return new BaseResponse<Apointment>()
+                    {
+                        Data = result,
+                        Description = "Ось ваш апоінтмент",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+                return new BaseResponse<Apointment>()
+                {
+                    Data = null,
+                    Description = "Такого апоінтмкнту не існує",
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,$"[ApointmentService.GetBuId] error: {ex.Message}");
+                return new BaseResponse<Apointment>()
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<IBaseResponse<Apointment>> Update(Apointment apointment, ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
