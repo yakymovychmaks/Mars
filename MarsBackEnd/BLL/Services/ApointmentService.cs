@@ -100,9 +100,35 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<IEnumerable<Apointment>>> GetAllApointments(ClaimsPrincipal claimsPrincipal)
+        public async Task<IBaseResponse<IEnumerable<Apointment>>> GetAllApointments(ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var apointments = _apointmentRepository.GetAll()
+                    .Where(apointment => apointment.user.Name == claimsPrincipal.Identity.Name)
+                    .Select(apointment => new Apointment{
+                        Id = apointment.Id,
+                        Title = apointment.Title,
+                        Description = apointment.Description,
+                        time = apointment.time
+                    });
+                return new BaseResponse<IEnumerable<Apointment>>()
+                {
+                    Data = apointments,
+                    Description = "Ось вагі апоінтменти",
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,$"[ApointmentService.GetAll] error: {ex.Message}");
+                return new BaseResponse<IEnumerable<Apointment>>
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<IBaseResponse<Apointment>> GetApointment(int id, ClaimsPrincipal claimsPrincipal)

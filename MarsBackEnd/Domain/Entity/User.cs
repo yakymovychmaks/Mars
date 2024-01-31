@@ -12,6 +12,7 @@ namespace Domain.Entity
         public string Name { get; set; }
         public Role Role { get; set; }
         public Profile Profile { get; set; }
+        public List<Apointment>? Apointments { get; set; }
         public List<Post> Posts { get; set; }
     }
 }
