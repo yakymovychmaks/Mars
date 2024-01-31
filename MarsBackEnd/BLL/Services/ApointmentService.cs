@@ -164,9 +164,49 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<Apointment>> Update(Apointment apointment, ClaimsPrincipal claimsPrincipal)
+        public async Task<IBaseResponse<Apointment>> Update(Apointment apointment, ClaimsPrincipal claimsPrincipal)
         {
-            
+            try
+            {
+                if (claimsPrincipal.IsInRole("Admin") || claimsPrincipal.IsInRole("Moderator"))
+                {
+                    var oldApointment = await _apointmentRepository.GetById(apointment.Id);
+                    if (oldApointment == null)
+                        return new BaseResponse<Apointment>()
+                        {
+                            Data = null,
+                            Description = "Неіснує такого апоінтмента",
+                            StatusCode = StatusCode.OK
+                        };
+                    oldApointment = apointment;
+                    await _apointmentRepository.Update(oldApointment);
+                    return new BaseResponse<Apointment>()
+                    {
+                        Data = null,
+                        Description = "Апоінтмент успішно оновленно",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+                else
+                {
+                    return new BaseResponse<Apointment>()
+                    {
+                        Data = null,
+                        Description = "У вас недостатньо прав",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"[ApointmentService.Update] error: {ex.Message}");
+                return new BaseResponse<Apointment>()
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
     }
 }
