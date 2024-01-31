@@ -56,9 +56,48 @@ namespace BLL.Services
             }
         }
 
-        public Task<IBaseResponse<bool>> Delete(int id, ClaimsPrincipal claimsPrincipal)
+        public async Task<IBaseResponse<bool>> Delete(int id, ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (claimsPrincipal.IsInRole("Admin") || claimsPrincipal.IsInRole("Moderartor"))
+                {
+                    var apointment = await _apointmentRepository.GetById(id);
+                    if (apointment == null)
+                        return new BaseResponse<bool>()
+                        {
+                            Data = false,
+                            Description = "Такого поста не існує",
+                            StatusCode = StatusCode.OK
+                        };
+                    await _apointmentRepository.Delete(apointment);
+                    return new BaseResponse<bool>()
+                    {
+                        Data = true,
+                        Description = "Апоінтмент успішно видалено",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+                else
+                {
+                    return new BaseResponse<bool>()
+                    {
+                        Data = false,
+                        Description = "Вибачте у вас недостатньо прав",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,$"[ApointmentService.Delete] error: {ex.Message}");
+                return new BaseResponse<bool>()
+                {
+                    Data = false,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
         public Task<IBaseResponse<IEnumerable<Apointment>>> GetAllApointments(ClaimsPrincipal claimsPrincipal)
