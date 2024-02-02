@@ -16,6 +16,7 @@ namespace DLL.DataAccess
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Blog> Blog { get; set; }
+        public virtual DbSet<DocsMeta> Docs { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
