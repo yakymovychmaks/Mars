@@ -13,6 +13,6 @@ namespace Domain.Entity
         public Role Role { get; set; }
         public Profile Profile { get; set; }
         public List<Apointment>? Apointments { get; set; }
-        public List<Post> Posts { get; set; }
+        public List<DocsMeta> Docs { get; set; }
     }
 }
