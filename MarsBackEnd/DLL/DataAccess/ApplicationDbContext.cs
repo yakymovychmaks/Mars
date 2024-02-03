@@ -18,6 +18,15 @@ namespace DLL.DataAccess
         public virtual DbSet<Blog> Blog { get; set; }
         public virtual DbSet<DocsMeta> Docs { get; set; }
         public virtual DbSet<MemberRole> MemberRoles { get; set; }
+        public virtual DbSet<Partner> Partners { get; set; }
+        public virtual DbSet<PatientWaitList> PatientWaitList { get; set;}
+        public virtual DbSet<People> People { get; set; }
+        public virtual DbSet<Photo> Photos { get; set; }
+        public virtual DbSet<PostItem> PostItems { get; set; }
+        public virtual DbSet<Services> Services { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Teams> Teams { get; set; }
+        public virtual DbSet<ThemesQuestion> ThemesQuestions { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
