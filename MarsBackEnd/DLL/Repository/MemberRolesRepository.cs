@@ -37,7 +37,7 @@ namespace DLL.Repository
 
         public async Task<MemberRole> Update(MemberRole entity)
         {
-            var result = await _dbContext.MemberRoles.FindAsync(entity.id);
+            var result = await _dbContext.MemberRoles.FindAsync(entity.Id);
             _dbContext.Entry(result).CurrentValues.SetValues(entity);
             _dbContext.SaveChanges();
             return entity;

@@ -8,5 +8,7 @@ namespace Domain.Entity
 {
     public class ThemesQuestion
     {
+        public int Id { get; set; }
+        public string Title { get; set; }
     }
 }
