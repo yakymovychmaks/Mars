@@ -12,6 +12,6 @@ namespace Domain.Entity
         public int Id { get; set; }
         public byte Age { get; set; }
         public string Address { get; set; }
-        public List<Apointment>? Apointments { get; set; }
+        
     }
 }
