@@ -1,7 +1,4 @@
 ﻿using Domain.Enum;
-using Domain.Entity;
-using System.Text.Json.Serialization;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entity
 {
