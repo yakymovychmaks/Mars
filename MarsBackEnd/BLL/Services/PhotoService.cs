@@ -1,11 +1,6 @@
 ﻿using DLL.Repository;
 using Domain.Entity;
 using Domain.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -49,6 +44,15 @@ namespace BLL.Services
                     StatusCode = Domain.Enum.StatusCode.InternalServerError
                 };
             }
+        }
+        public async Task<Stream> GetIamgeAsync(string path, string imageName)
+        {
+            var imagepath = Path.Combine(path, imageName);
+            if(!File.Exists(imagepath))
+            {
+                return null;
+            }
+            return new FileStream(imagepath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
         }
     }
 }

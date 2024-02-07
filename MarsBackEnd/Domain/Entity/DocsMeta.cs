@@ -12,7 +12,7 @@ namespace Domain.Entity
         public string FileName { get; set; }
         public string ContentTipe { get; set; }
         public int FileSize { get; set; }
-        public DateOnly UploadDate { get; set; }
+        public DateTime UploadDate { get; set; }
         public string PathFile { get; set; }
         public string NameHolder { get; set; }
     }
