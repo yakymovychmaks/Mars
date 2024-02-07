@@ -1,39 +1,70 @@
-﻿//using MarsBackEnd.APIServices;
-//using MarsBackEnd.Models.UserAPIModeles;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
+﻿using BLL.Services;
+using Domain.Entity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
-//namespace MarsBackEnd.Controllers
-//{
-//    [Route("api/Apointment")]
-//    [ApiController]
-//    public class ApointmentController : ControllerBase
-//    {
-//        private ApointmentAPIService _apointmentAPIService;
-//        public ApointmentController(ApointmentAPIService apointmentAPIService)
-//        {
-//            _apointmentAPIService = apointmentAPIService;
-//        }
+namespace MarsBackEnd.Controllers
+{
+    [Route("api/Apointment")]
+    [ApiController]
+    public class ApointmentController : ControllerBase
+    {
+        private readonly ApointmentService _apointmentService;
+        public ClaimsPrincipal claimsPrincipal;
+        public ApointmentController(ApointmentService apointmentAPIService)
+        {
+            _apointmentService = apointmentAPIService;
+            claimsPrincipal = User as ClaimsPrincipal;
+        }
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetAllApointment()
+        {
+            
+            var response = _apointmentService.GetAllApointments(claimsPrincipal);
+            if(response.Result.StatusCode != Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
+            }
+            var jsonResult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(jsonResult);
 
-//        [HttpGet]
-//        public IActionResult GetAllApointment()
-//        {
-//            return Ok(_apointmentAPIService.GetAllApointmentAsJosn());
-//        }
-//        [HttpGet("{id}")]
-//        public IActionResult GetApointmentBuId(int id)
-//        {
-//            return Ok(_apointmentAPIService.GetApointmentBuIdAsJson(id));
-//        }
-//        [HttpPost]
-//        public IActionResult AddApointment([FromBody] ApointmentAPIModel apointmentAPIModel)
-//        {
-//            return Ok(_apointmentAPIService.AddApointment(apointmentAPIModel));
-//        }
-//        [HttpDelete]
-//        public IActionResult DeleteApointment([FromBody] ApointmentAPIModel apointmentAPIModel)
-//        {
-//            return Ok(_apointmentAPIService.DeleteApointment(apointmentAPIModel));
-//        }
-//    }
-//}
+        }
+        [Authorize]
+        [HttpGet("{id}")]
+        public IActionResult GetApointmentBuId(int id)
+        {
+            var response = _apointmentService.GetApointment(id, claimsPrincipal);
+            if(response.Result.StatusCode != Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
+            }
+            var jsonResult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(jsonResult);
+        }
+        [HttpPost]
+        public IActionResult AddApointment([FromBody] Apointment apointment)
+        {
+            var response = _apointmentService.Create(apointment,claimsPrincipal);
+            if(response.Result.StatusCode == Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
+            }
+            var jsonResult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(jsonResult);
+        }
+        [HttpDelete]
+        public IActionResult DeleteApointment([FromBody] Apointment apointment)
+        {
+            var response = _apointmentService.Create(apointment, claimsPrincipal);
+            if(response.Result.StatusCode== Domain.Enum.StatusCode.OK)
+            {
+                return StatusCode((int)response.Result.StatusCode, response.Result.Description);
+            }
+            var jsonResult = JsonConvert.SerializeObject(response.Result.Data);
+            return Ok(jsonResult);
+        }
+    }
+}
