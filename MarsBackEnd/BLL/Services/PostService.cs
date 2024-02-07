@@ -137,7 +137,7 @@ namespace BLL.Services
                     .Select(x => new Post()
                     {
                         Id = x.Id,
-                        title = x.title,
+                        Name = x.Name,
                         Description = x.Description
                     })
                     .ToListAsync();
@@ -169,7 +169,7 @@ namespace BLL.Services
                     var updatePost = await _postRepository.GetById(post.Id);
                     if (updatePost != null)
                     {
-                        updatePost.title = post.title;
+                        updatePost.Name = post.Name;
                         updatePost.Description = post.Description;
                         await _postRepository.Update(updatePost);
                         return new BaseResponse<Post>()

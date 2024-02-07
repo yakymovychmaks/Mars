@@ -43,7 +43,6 @@ namespace BLL.Services
                     Role = model.Role,
                     Password = HashPasswordHelper.HashPassowrd(model.Password),
                     Profile = model.Profile,
-                    Posts = new List<Post>()
                 };
                 await _userRepository.Create(user);
                 return new BaseResponse<User>()

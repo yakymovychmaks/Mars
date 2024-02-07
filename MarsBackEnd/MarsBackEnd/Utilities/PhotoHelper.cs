@@ -1,20 +1,23 @@
-﻿namespace MarsBackEnd.Utilities
+﻿using BLL.Services;
+
+namespace MarsBackEnd.Utilities
 {
     public class PhotoHelper
     {
         private readonly IWebHostEnvironment _environment;
-        private readonly string _uploadPath;
+        private string _uploadPath;
         public PhotoHelper(IWebHostEnvironment environment)
         {
             _environment = environment;
-            _uploadPath = Path.Combine(_environment.WebRootPath, "uploads");
+            //_uploadPath = Path.Combine(_environment.WebRootPath, "uploads");
+            _uploadPath = "api/upload/files";
         }
         public async Task<string> SendSettingsForSavePhoto()
         {
             try
             {
-                var result = await _photoService.SevePhoto(_uploadPath);
-                return result;
+
+                return _uploadPath;
             }
             catch (Exception ex)
             {
