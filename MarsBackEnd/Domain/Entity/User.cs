@@ -1,15 +1,14 @@
 ﻿using Domain.Enum;
+using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entity
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public string Password { get; set; }
         public string Name { get; set; }
-        public Role Role { get; set; }
+        public string SureNme { get; set; }
         public Profile Profile { get; set; }
-        public List<Apointment>? Apointments { get; set; }
         public List<DocsMeta> Docs { get; set; }
     }
 }

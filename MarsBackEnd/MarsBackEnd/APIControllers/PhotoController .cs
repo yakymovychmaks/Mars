@@ -1,6 +1,8 @@
 ﻿using BLL.Services;
 using MarsBackEnd.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MarsBackEnd.APIControllers
 {
@@ -9,24 +11,35 @@ namespace MarsBackEnd.APIControllers
     public class PhotoController : ControllerBase
     {
         private readonly PhotoService _photoService;
-        private readonly PhotoHelper _photoHelper;
-        public PhotoController(PhotoService photoService, PhotoHelper photoHelper)
+        //private readonly PhotoHelper _photoHelper;
+        public PhotoController(PhotoService photoService /*PhotoHelper photoHelper*/)
         {
             _photoService = photoService;
-            _photoHelper = photoHelper;
+            //_photoHelper = photoHelper;
         }
 
+        //[HttpPost("save")]
+        //public async Task<IActionResult> SavePhotoAsync(string uploadPath, string name, Stream photoStream)
+        //{
+        //    var response = await _photoService.SavePhotoAsync(uploadPath, name, photoStream);
+        //    return StatusCode((int)response.StatusCode, response);
+        //}
         [HttpPost("save")]
-        public async Task<IActionResult> SavePhotoAsync(string uploadPath, string name, Stream photoStream)
+
+        public async Task<IActionResult> SavePhotoAsync(IFormCollection formData)
         {
-            var response = await _photoService.SavePhotoAsync(uploadPath, name, photoStream);
+            // Отримати ClaimsPrincipal, який містить інформацію про поточного користувача
+            var claimsPrincipal = User as ClaimsPrincipal;
+
+            IFormFile file = formData.Files.FirstOrDefault();
+            var response = await _photoService.SavePhotoAsync(claimsPrincipal ,file);
             return StatusCode((int)response.StatusCode, response);
         }
 
         [HttpGet("get")]
         public async Task<IActionResult> GetImageAsync(string path, string imageName)
         {
-            path = await _photoHelper.SendSettingsForSavePhoto();
+            //path = await _photoHelper.SendSettingsForSavePhoto();
             var imageStream = await _photoService.GetIamgeAsync(path, imageName);
             if (imageStream == null)
             {

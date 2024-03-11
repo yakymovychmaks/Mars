@@ -1,13 +1,15 @@
-using BLL.Services;
+﻿using BLL.Services;
 using DLL.DataAccess;
 using DLL.Interface;
 using DLL.Repository;
 using Domain.Entity;
-using Domain.Response;
 using FluentAssertions.Common;
-using MarsBackEnd.Utilities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace MarsBackEnd
 {
@@ -18,69 +20,70 @@ namespace MarsBackEnd
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            #region Post DI
-            builder.Services.AddScoped<PostRepository>();
-            //builder.Services.AddTransient<PostService>();
-            #endregion
-
-            builder.Services.AddScoped<UserRepository>();
-            builder.Services.AddScoped<IRepository<Profile>, ProfileRepository>();
-            builder.Services.AddScoped<IRepository<User>, UserRepository>();
-            builder.Services.AddScoped<IRepository<Apointment>, ApointmentRepository>();
-            builder.Services.AddScoped<IRepository<Comment>, CommentRepository>();
-            builder.Services.AddScoped<IRepository<Blog>, BlogRepository>();
-            builder.Services.AddScoped<IRepository<DocsMeta>, docsMetaRepository>();
-            builder.Services.AddScoped<IRepository<MemberRole>, MemberRolesRepository>();
-            builder.Services.AddScoped<IRepository<Partner>, PartnerRepository>();
-            builder.Services.AddScoped<IRepository<PatientWaitList>, PatientWaitListRepository>();
-            builder.Services.AddScoped<IRepository<People>, PeopleRepository>();
-            builder.Services.AddScoped<IRepository<Photo>, PhotoRepository>();
-            builder.Services.AddScoped<IRepository<PostItem>, PostItemsRepository>();
-            builder.Services.AddScoped<IRepository<Domain.Entity.Services>,  ServicesRepository>();
-            builder.Services.AddScoped<IRepository<Tag>, TagRepository>();
-            builder.Services.AddScoped<IRepository<Teams>, TeamsRepository>();
-            builder.Services.AddScoped<IRepository<ThemesQuestion>,ThemesQuestionRepository>();
-            builder.Services.AddScoped<PhotoRepository>();
+            // Identity
+            
+            builder.Services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            
+            // Register repositories and services
+            
+            builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<PhotoService>();
-            builder.Services.AddScoped<PhotoHelper>(provider => new PhotoHelper(provider.GetRequiredService<IWebHostEnvironment>()));
-            builder.Services.AddTransient<UserService>();
+            builder.Services.AddScoped<PostRepository>();
+            builder.Services.AddScoped<PhotoRepository>();
+            builder.Services.AddScoped<IRepository<User>, UserRepository>();
+            builder.Services.AddScoped<IRepository<Profile>, ProfileRepository>();
+            builder.Services.AddScoped<IRepository<Apointment>, ApointmentRepository>();
 
-
-            builder.Services.AddControllers();
-            builder.Services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
-
-
-
-
-
-            // Configure the HTTP request pipeline.
-
-            //var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-            var dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=MArsIndustrys;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False")
-                .Options;
-            using (var db = new ApplicationDbContext(dbContextOptions))
+            builder.Services.Configure<IdentityOptions>(options =>
             {
-                db.SaveChanges();
-            }
+                options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireUppercase = true;
+            });
+            //builder.Services.AddScoped<IRepository<Photo>, PhotoRepository>();
+            // Add other repositories and services here...
+            // Configure JWT authentication
+            //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.TokenValidationParameters = new TokenValidationParameters
+            //        {
+            //            ValidateIssuer = true,
+            //            ValidateAudience = true,
+            //            ValidateLifetime = true,
+            //            ValidateIssuerSigningKey = true,
+            //            ValidIssuer = "ваш_ісюер",
+            //            ValidAudience = "ваш_аудієнція",
+            //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ваш_секретний_ключ"))
+            //        };
+            //    });
 
+            // Add controllers and configure JSON serialization options
+            builder.Services.AddControllers()
+                .AddJsonOptions(o => o.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
+
+            // Build the app
             var app = builder.Build();
-            app.UseHttpsRedirection();
 
+            // Configure middleware
+            app.UseAuthentication();
             app.UseAuthorization();
-
-            //app.MapControllerRoute(name: "default", pattern: "{controller=");
-
-            app.MapControllers();
+            app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.Run();
-            
-
         }
     }
 }
