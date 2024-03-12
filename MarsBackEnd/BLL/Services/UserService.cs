@@ -32,14 +32,15 @@ namespace BLL.Services
         }
         public async Task<IBaseResponse<RegisterViewModel>> Register(RegisterViewModel model)
         {
-            CreateDefaultRoles();
+           
             var user = new User { UserName = model.Name ,Name = model.Name, Email = model.Email, SureNme = model.Surename, Profile = new Profile { Age = 18,Address="masfni", Apointment = null} };
             var result = await _userManager.CreateAsync(user, model.Password);
-
+            
             if (result.Succeeded)
             {
-                
-                await _userManager.AddToRoleAsync(user, "USER");
+                CreateDefaultRoles(user);
+                //await _userManager.AddToRoleAsync(user, "USER");
+
                 await _signInManager.SignInAsync(user, false);
                 return new BaseResponse<RegisterViewModel>()
                 {
@@ -86,13 +87,22 @@ namespace BLL.Services
                 };
             }
         }
-        public async void CreateDefaultRoles()
+        public async Task CreateDefaultRoles(User user)
         {
-            var roles = await _roleManager.RoleExistsAsync("USER");
-            if (roles == null) 
-            {
-                await _roleManager.CreateAsync(new IdentityRole("USER")); 
+            var roleName = "USER";
+            var role = new IdentityRole { Name = "USER" };
+            var result = await _roleManager.CreateAsync(role);
+
+            try { 
+                await _userManager.AddToRoleAsync(user, roleName);
+            }catch (Exception ex)
+            {       
+                Console.WriteLine(ex.ToString());
             }
+            /* if (roles == null) 
+             {
+                 await _roleManager.CreateAsync(new IdentityRole("USER")); 
+             }*/
         }
         //public async Task<IBaseResponse<User>> Create(User model)
         //{
