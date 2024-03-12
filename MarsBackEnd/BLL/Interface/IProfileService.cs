@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface
 {
-    internal interface IProfileService
+    public interface IProfileService
     {
         Task<BaseResponse<Profile>> GetProfile(int id);
 

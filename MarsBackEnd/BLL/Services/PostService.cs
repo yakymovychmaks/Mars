@@ -3,15 +3,14 @@ using DLL.Interface;
 using Domain.Entity;
 using Domain.Response;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain;
+using Domain.Enum;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BLL.Services
 {
-    internal class PostService : IPostService
+    public class PostService : IPostService
     {
 
         private readonly IRepository<Post> _postRepository;
@@ -21,29 +20,195 @@ namespace BLL.Services
             _postRepository = postRepository;
             _postLogger = postLogger;
         }
-        public Task<IBaseResponse<Post>> Create(Post post)
+        public async Task<IBaseResponse<Post>> Create(Post post, ClaimsPrincipal user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (user.IsInRole("Admin"))
+                {
+                    await _postRepository.Create(post);
+                    return new BaseResponse<Post>()
+                    {
+                        Data = post,
+                        Description = "Пост успішно створено",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+                else if (user.IsInRole("User"))
+                    return new BaseResponse<Post>()
+                    {
+                        Data = null,
+                        Description = "Ви не володієте достатнім рівнем доступу",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+                else
+                    return new BaseResponse<Post>()
+                    {
+                        Data = null,
+                        Description = "Упс щось не так",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService.Create] error: {ex.InnerException}");
+                return new BaseResponse<Post>()
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
-        public Task<IBaseResponse<bool>> Delete(int id)
+        public async Task<IBaseResponse<bool>> Delete(int id, ClaimsPrincipal user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (user.IsInRole("Admin"))
+                {
+                    Post rezult = await _postRepository.GetById(id);
+                    if (rezult != null)
+                    {
+                        await _postRepository.Delete(rezult);
+                        return new BaseResponse<bool>()
+                        {
+                            Data = true,
+                            Description = "Ви видалили цей пост",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                    else
+                        return new BaseResponse<bool>()
+                        {
+                            Data = false,
+                            Description = "Такого посту не існує",
+                            StatusCode = StatusCode.InternalServerError
+                        };
+                }
+                else return new BaseResponse<bool>()
+                {
+                    Data = false,
+                    Description = "Упс щось пішло не так",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService Delete] error: {ex.InnerException}");
+                return new BaseResponse<bool>()
+                {
+                    Data = false,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
-        public Task<IBaseResponse<Post>> GetPost(int id)
+        public async Task<IBaseResponse<Post>> GetPost(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var rezult = await _postRepository.GetById(id);
+                return new BaseResponse<Post>()
+                {
+                    Data = rezult,
+                    Description = "Ось пост",
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PoserService GetPost] error: {ex.InnerException}");
+                return new BaseResponse<Post>()
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
-        public Task<IBaseResponse<IEnumerable<Post>>> GetAll(int userId)
+        public async Task<IBaseResponse<IEnumerable<Post>>> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var posts = await _postRepository.GetAll()
+                    .Select(x => new Post()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description
+                    })
+                    .ToListAsync();
+                _postLogger.LogInformation($"[PostService.GetAll] отримано елементів {posts.Count}");
+                return new BaseResponse<IEnumerable<Post>>()
+                {
+                    Data = posts,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService.GetAll] error: {ex.InnerException}");
+                return new BaseResponse<IEnumerable<Post>>
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
-        public Task<IBaseResponse<Post>> Update(Post post)
+        public async Task<IBaseResponse<Post>> Update(Post post, ClaimsPrincipal user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(user.IsInRole("Admin"))
+                {
+                    var updatePost = await _postRepository.GetById(post.Id);
+                    if (updatePost != null)
+                    {
+                        updatePost.Name = post.Name;
+                        updatePost.Description = post.Description;
+                        await _postRepository.Update(updatePost);
+                        return new BaseResponse<Post>()
+                        {
+                            Data = updatePost,
+                            Description = "пост успішно оноаленно",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                    else
+                    {
+                        return new BaseResponse<Post>()
+                        {
+                            Data = null,
+                            Description = "такого посту не існує",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<Post>
+                    {
+                        Data = null,
+                        Description = "Упс",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                _postLogger.LogError(ex, $"[PostService.Update] error: {ex.InnerException}");
+                return new BaseResponse<Post>
+                {
+                    Data = null,
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
     }
 }

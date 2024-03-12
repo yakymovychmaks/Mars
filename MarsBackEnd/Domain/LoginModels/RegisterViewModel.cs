@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace Domain.LoginModels
 {
-    public class LoginModel
+    public class RegisterViewModel
     {
         [Required]
         public string Name { get; set; }
+        public string Surename { get; set; }
+        [Required]
+        public string Email { get; set; }
         [Required]
         public string Password { get; set; }
-    
     }
 }

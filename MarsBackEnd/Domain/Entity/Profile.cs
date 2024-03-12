@@ -8,10 +8,14 @@ namespace Domain.Entity
     public class Profile
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public byte Age { get; set; }
+        public int Age { get; set; }
         public string Address { get; set; }
-        public List<Apointment>? Apointments { get; set; }
+        public int ApointmentId { get; set; }
+
+        // Навігаційна властивість до сутності Profile
+        [ForeignKey("ApointmentId")]
+        public ICollection<Apointment> Apointment { get; set; }
+
     }
 }

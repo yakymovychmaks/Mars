@@ -4,11 +4,11 @@ namespace Domain.Enum
 {
     public enum Role
     {
-        [Display(Name = "Користувач")]
+        [Display(Name = "User")]
         User = 0,
-        [Display(Name = "Модератор")]
+        [Display(Name = "Moderator")]
         Moderator = 1,
-        [Display(Name = "Адмін")]
+        [Display(Name = "admin")]
         Admin = 2,
     }
 }
