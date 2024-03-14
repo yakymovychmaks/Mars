@@ -27,9 +27,22 @@ namespace MarsBackEnd
             // Identity
             
             builder.Services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
+            // Configure CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000") // Frontend Domen
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
+
+
             // Register repositories and services
-            
+
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<PhotoService>();
             builder.Services.AddScoped<PostRepository>();
@@ -74,6 +87,7 @@ namespace MarsBackEnd
             var app = builder.Build();
 
             // Configure middleware
+            app.UseCors("AllowOrigin");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseHttpsRedirection();
